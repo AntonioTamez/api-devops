@@ -281,7 +281,9 @@ SwaggerDoc("v1", new OpenApiInfo
 
 ---
 
-## US-009: Crear StatusController con Endpoints de Ejemplo
+## US-009: Crear StatusController con Endpoints de Ejemplo ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador  
 **Quiero** endpoints de ejemplo usando Controllers  
@@ -392,10 +394,10 @@ SwaggerDoc("v1", new OpenApiInfo
 **Prioridad**: 🟢 Media
 
 ### Definición de Hecho (DoD)
-- Endpoints funcionando
-- Documentados en Swagger
-- Respuestas JSON válidas
-- Ejemplos en README
+- ✅ Endpoints funcionando
+- ✅ Documentados en Swagger
+- ✅ Respuestas JSON válidas
+- ⏳ Ejemplos en README (se actualizará al final del sprint)
 
 ---
 

@@ -89,7 +89,7 @@ api-devops/
 | US-006 | Configurar Swagger/OpenAPI | 🔴 | 2 pts | ✅ |
 | US-007 | Implementar Health Checks | 🟡 | 3 pts | ✅ |
 | US-008 | Configurar CORS | 🟢 | 2 pts | ✅ |
-| US-009 | Crear StatusController | 🟢 | 2 pts | ⏳ |
+| US-009 | Crear StatusController | 🟢 | 2 pts | ✅ |
 | US-010 | Configurar Logging (Serilog) | 🟡 | 3 pts | ⏳ |
 
 **Entregables**:
@@ -307,7 +307,7 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-006: Swagger configurado
 - [x] US-007: Health checks implementados
 - [x] US-008: CORS configurado
-- [ ] US-009: Endpoints de ejemplo
+- [x] US-009: Endpoints de ejemplo
 - [ ] US-010: Logging configurado
 
 ### Sprint 2: Base de Datos
