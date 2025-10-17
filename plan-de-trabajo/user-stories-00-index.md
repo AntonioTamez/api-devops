@@ -65,7 +65,7 @@ api-devops/
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
 | US-001 | Inicializar Repositorio Git | 🔴 | 1 pt | ✅ |
-| US-002 | Crear Estructura de Directorios | 🔴 | 1 pt | ⏳ |
+| US-002 | Crear Estructura de Directorios | 🔴 | 1 pt | ✅ |
 | US-003 | Crear README.md Principal | 🟡 | 2 pts | ⏳ |
 | US-004 | Configurar EditorConfig | 🟢 | 1 pt | ⏳ |
 
@@ -298,7 +298,7 @@ Sprint 0 (Setup):   █████                  5 pts
 
 ### Sprint 0: Setup
 - [x] US-001: Git inicializado
-- [ ] US-002: Estructura de carpetas
+- [x] US-002: Estructura de carpetas
 - [ ] US-003: README.md completo
 - [ ] US-004: EditorConfig configurado
 

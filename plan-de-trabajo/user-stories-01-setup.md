@@ -51,7 +51,9 @@ Establecer la base del proyecto con la estructura de directorios, configuración
 
 ---
 
-## US-002: Crear Estructura de Directorios
+## US-002: Crear Estructura de Directorios ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador  
 **Quiero** tener la estructura de directorios del proyecto organizada  
@@ -88,9 +90,9 @@ api-devops/
 **Prioridad**: 🔴 Crítica
 
 ### Definición de Hecho (DoD)
-- Todos los directorios creados
-- README.md en carpetas principales
-- Estructura commiteada
+- ✅ Todos los directorios creados
+- ✅ README.md en carpetas principales
+- ✅ Estructura commiteada
 
 ---
 
