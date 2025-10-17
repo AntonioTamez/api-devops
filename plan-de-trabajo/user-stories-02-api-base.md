@@ -119,7 +119,9 @@ SwaggerDoc("v1", new OpenApiInfo
 
 ---
 
-## US-007: Implementar Health Checks
+## US-007: Implementar Health Checks ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** ingeniero de SRE  
 **Quiero** endpoints de health check  
@@ -188,10 +190,10 @@ SwaggerDoc("v1", new OpenApiInfo
 **Prioridad**: 🟡 Alta
 
 ### Definición de Hecho (DoD)
-- 3 endpoints de health check funcionando
-- Respuestas JSON válidas
-- Documentado en Swagger
-- README actualizado con endpoints
+- ✅ 3 endpoints de health check funcionando
+- ✅ Respuestas JSON válidas
+- ✅ Documentado en Swagger (automático)
+- ⏳ README actualizado con endpoints (se actualizará al final del sprint)
 
 ---
 
