@@ -12,15 +12,20 @@ public class StatusController : ControllerBase
 {
     private readonly IWebHostEnvironment _environment;
     private readonly IConfiguration _configuration;
+    private readonly ILogger<StatusController> _logger;
     private static readonly DateTime _startTime = DateTime.UtcNow;
 
     /// <summary>
     /// Constructor del StatusController
     /// </summary>
-    public StatusController(IWebHostEnvironment environment, IConfiguration configuration)
+    public StatusController(
+        IWebHostEnvironment environment, 
+        IConfiguration configuration,
+        ILogger<StatusController> logger)
     {
         _environment = environment;
         _configuration = configuration;
+        _logger = logger;
     }
 
     /// <summary>
@@ -32,6 +37,8 @@ public class StatusController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult GetStatus()
     {
+        _logger.LogInformation("Status endpoint called - Environment: {Environment}", _environment.EnvironmentName);
+        
         var uptime = DateTime.UtcNow - _startTime;
 
         return Ok(new
@@ -53,6 +60,8 @@ public class StatusController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult GetInfo()
     {
+        _logger.LogInformation("Info endpoint called");
+        
         return Ok(new
         {
             ApiName = "DevOps API",

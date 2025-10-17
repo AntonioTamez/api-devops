@@ -1,4 +1,16 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .Enrich.WithEnvironmentName()
+        .Enrich.WithMachineName();
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -88,6 +100,8 @@ else
         });
     }
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
