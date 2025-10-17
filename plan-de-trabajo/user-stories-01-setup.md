@@ -154,7 +154,9 @@ api-devops/
 
 ---
 
-## US-004: Configurar EditorConfig y Code Style
+## US-004: Configurar EditorConfig y Code Style ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador  
 **Quiero** tener reglas de estilo de código consistentes  
@@ -201,9 +203,9 @@ api-devops/
 **Prioridad**: 🟢 Media
 
 ### Definición de Hecho (DoD)
-- `.editorconfig` creado
-- Reglas aplicándose correctamente en IDE
-- Documentado en README.md
+- ✅ `.editorconfig` creado
+- ✅ Reglas aplicándose correctamente en IDE
+- ✅ Documentado en README.md
 
 ---
 
@@ -211,10 +213,10 @@ api-devops/
 
 | ID | Historia | Prioridad | Esfuerzo | Estado |
 |---|---|---|---|---|
-| US-001 | Inicializar Repositorio Git | 🔴 Crítica | 1 pt | ⏳ Pendiente |
-| US-002 | Crear Estructura de Directorios | 🔴 Crítica | 1 pt | ⏳ Pendiente |
-| US-003 | Crear README.md Principal | 🟡 Alta | 2 pts | ⏳ Pendiente |
-| US-004 | EditorConfig y Code Style | 🟢 Media | 1 pt | ⏳ Pendiente |
+| US-001 | Inicializar Repositorio Git | 🔴 Crítica | 1 pt | ✅ Completada |
+| US-002 | Crear Estructura de Directorios | 🔴 Crítica | 1 pt | ✅ Completada |
+| US-003 | Crear README.md Principal | 🟡 Alta | 2 pts | ✅ Completada |
+| US-004 | EditorConfig y Code Style | 🟢 Media | 1 pt | ✅ Completada |
 
 **Total Sprint 0**: 5 puntos (~3 horas)
 
