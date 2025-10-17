@@ -10,7 +10,9 @@ Establecer la base del proyecto con la estructura de directorios, configuración
 
 ---
 
-## US-001: Inicializar Repositorio Git
+## US-001: Inicializar Repositorio Git ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** arquitecto de software  
 **Quiero** inicializar un repositorio Git con .gitignore configurado  
@@ -42,10 +44,10 @@ Establecer la base del proyecto con la estructura de directorios, configuración
 **Prioridad**: 🔴 Crítica
 
 ### Definición de Hecho (DoD)
-- Repositorio inicializado
-- `.gitignore` funcionando correctamente
-- Ramas master y develop creadas
-- Documentado en README.md inicial
+- ✅ Repositorio inicializado
+- ✅ `.gitignore` funcionando correctamente
+- ✅ Ramas master y develop creadas
+- ⏳ Documentado en README.md inicial (US-003)
 
 ---
 
