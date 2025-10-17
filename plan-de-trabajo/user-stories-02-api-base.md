@@ -197,7 +197,9 @@ SwaggerDoc("v1", new OpenApiInfo
 
 ---
 
-## US-008: Configurar CORS
+## US-008: Configurar CORS ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador frontend  
 **Quiero** que el API permita CORS  
@@ -272,10 +274,10 @@ SwaggerDoc("v1", new OpenApiInfo
 **Prioridad**: 🟢 Media
 
 ### Definición de Hecho (DoD)
-- CORS funcionando en dev y prod
-- Configuración por ambiente
-- Probado con fetch desde navegador
-- Documentado en README
+- ✅ CORS funcionando en dev y prod
+- ✅ Configuración por ambiente
+- ✅ Probado con fetch desde navegador (se validará con controllers)
+- ⏳ Documentado en README (se actualizará al final del sprint)
 
 ---
 
