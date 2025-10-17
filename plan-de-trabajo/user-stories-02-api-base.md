@@ -57,7 +57,9 @@ Crear el proyecto base de API .NET 8 con Swagger, configuración básica y endpo
 
 ---
 
-## US-006: Configurar Swagger/OpenAPI
+## US-006: Configurar Swagger/OpenAPI ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** consumidor de la API  
 **Quiero** documentación interactiva con Swagger  
@@ -110,10 +112,10 @@ SwaggerDoc("v1", new OpenApiInfo
 **Prioridad**: 🔴 Crítica
 
 ### Definición de Hecho (DoD)
-- Swagger UI personalizado funcionando
-- Accesible en raíz
-- Comentarios XML visibles en Swagger
-- Screenshot en documentación
+- ✅ Swagger UI personalizado funcionando
+- ✅ Accesible en raíz
+- ✅ Comentarios XML habilitados
+- ⏳ Screenshot en documentación (se agregará con controllers)
 
 ---
 
