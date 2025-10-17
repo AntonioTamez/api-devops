@@ -89,7 +89,7 @@ api-devops/
 | US-006 | Configurar Swagger/OpenAPI | 🔴 | 2 pts | ⏳ |
 | US-007 | Implementar Health Checks | 🟡 | 3 pts | ⏳ |
 | US-008 | Configurar CORS | 🟢 | 2 pts | ⏳ |
-| US-009 | Crear Endpoints Minimal API | 🟢 | 2 pts | ⏳ |
+| US-009 | Crear StatusController | 🟢 | 2 pts | ⏳ |
 | US-010 | Configurar Logging (Serilog) | 🟡 | 3 pts | ⏳ |
 
 **Entregables**:

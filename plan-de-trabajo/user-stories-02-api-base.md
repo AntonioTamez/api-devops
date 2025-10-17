@@ -273,18 +273,19 @@ SwaggerDoc("v1", new OpenApiInfo
 
 ---
 
-## US-009: Crear Endpoints Minimal API de Ejemplo
+## US-009: Crear StatusController con Endpoints de Ejemplo
 
 **Como** desarrollador  
-**Quiero** endpoints de ejemplo con Minimal API  
+**Quiero** endpoints de ejemplo usando Controllers  
 **Para** demostrar la funcionalidad básica del servicio
 
 ### Criterios de Aceptación
 - ✅ Endpoint `GET /api/status` - Retorna estado del API
 - ✅ Endpoint `GET /api/info` - Retorna información del proyecto
 - ✅ Respuestas en formato JSON
-- ✅ Documentados en Swagger con `.WithOpenApi()`
+- ✅ Documentados en Swagger automáticamente
 - ✅ Incluyen timestamp y metadata útil
+- ✅ Controller con atributos `[ApiController]` y `[Route]`
 
 ### Endpoints a Crear
 
@@ -317,31 +318,62 @@ SwaggerDoc("v1", new OpenApiInfo
 ```
 
 ### Tareas Técnicas
-1. En `Program.cs`, agregar después de `MapControllers()`:
+1. Crear carpeta `Controllers/` en el proyecto
+2. Crear `StatusController.cs`:
    ```csharp
-   app.MapGet("/api/status", (IHostEnvironment env) => new
-   {
-       Status = "Running",
-       Timestamp = DateTime.UtcNow,
-       Environment = env.EnvironmentName,
-       Version = "1.0.0"
-   })
-   .WithName("GetStatus")
-   .WithOpenApi();
+   using Microsoft.AspNetCore.Mvc;
    
-   app.MapGet("/api/info", () => new
+   namespace DevOpsApi.Controllers;
+   
+   [ApiController]
+   [Route("api/[controller]")]
+   public class StatusController : ControllerBase
    {
-       ApiName = "DevOps API",
-       Description = "API con CI/CD automatizado",
-       Features = new[] { "Swagger", "Docker", "Terraform", "GitHub Actions" },
-       Timestamp = DateTime.UtcNow
-   })
-   .WithName("GetInfo")
-   .WithOpenApi();
+       private readonly IHostEnvironment _environment;
+       
+       public StatusController(IHostEnvironment environment)
+       {
+           _environment = environment;
+       }
+       
+       /// <summary>
+       /// Obtiene el estado actual del API
+       /// </summary>
+       [HttpGet]
+       [ProducesResponseType(StatusCodes.Status200OK)]
+       public IActionResult GetStatus()
+       {
+           return Ok(new
+           {
+               Status = "Running",
+               Timestamp = DateTime.UtcNow,
+               Environment = _environment.EnvironmentName,
+               Version = "1.0.0"
+           });
+       }
+       
+       /// <summary>
+       /// Obtiene información del proyecto
+       /// </summary>
+       [HttpGet("info")]
+       [ProducesResponseType(StatusCodes.Status200OK)]
+       public IActionResult GetInfo()
+       {
+           return Ok(new
+           {
+               ApiName = "DevOps API",
+               Description = "API con CI/CD automatizado",
+               Features = new[] { "Swagger", "Docker", "Terraform", "GitHub Actions" },
+               Repository = "https://github.com/your-org/api-devops",
+               Documentation = "https://localhost:5000",
+               Timestamp = DateTime.UtcNow
+           });
+       }
+   }
    ```
-2. Probar endpoints en Swagger
-3. Verificar respuestas JSON
-4. Commit: "feat: Add minimal API endpoints for status and info"
+3. Probar endpoints en Swagger
+4. Verificar respuestas JSON
+5. Commit: "feat: Add StatusController with example endpoints"
 
 ### Dependencias
 - ✅ US-005 (Proyecto Web API creado)
@@ -448,7 +480,7 @@ SwaggerDoc("v1", new OpenApiInfo
 | US-006 | Configurar Swagger/OpenAPI | 🔴 Crítica | 2 pts | ⏳ Pendiente |
 | US-007 | Implementar Health Checks | 🟡 Alta | 3 pts | ⏳ Pendiente |
 | US-008 | Configurar CORS | 🟢 Media | 2 pts | ⏳ Pendiente |
-| US-009 | Crear Endpoints Minimal API | 🟢 Media | 2 pts | ⏳ Pendiente |
+| US-009 | Crear StatusController | 🟢 Media | 2 pts | ⏳ Pendiente |
 | US-010 | Configurar Logging | 🟡 Alta | 3 pts | ⏳ Pendiente |
 
 **Total Sprint 1**: 14 puntos (~7 horas)
