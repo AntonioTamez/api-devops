@@ -6,6 +6,31 @@ builder.Services.AddControllers();
 // Add Health Checks
 builder.Services.AddHealthChecks();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ApiPolicy", policyBuilder =>
+    {
+        var origins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+        
+        if (origins?.Contains("*") == true)
+        {
+            // Desarrollo: Permite cualquier origen
+            policyBuilder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+        }
+        else
+        {
+            // Producción: Solo orígenes específicos
+            policyBuilder.WithOrigins(origins ?? Array.Empty<string>())
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+        }
+    });
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -65,6 +90,8 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("ApiPolicy");
 
 app.MapControllers();
 
