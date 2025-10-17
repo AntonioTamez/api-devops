@@ -96,7 +96,9 @@ api-devops/
 
 ---
 
-## US-003: Crear Archivo README.md Principal
+## US-003: Crear Archivo README.md Principal ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** miembro del equipo  
 **Quiero** un README.md completo en la raíz del proyecto  
@@ -145,10 +147,10 @@ api-devops/
 **Prioridad**: 🟡 Alta
 
 ### Definición de Hecho (DoD)
-- README.md completo y actualizado
-- Todas las secciones llenas
-- Links funcionando
-- Revisado por al menos un miembro del equipo
+- ✅ README.md completo y actualizado
+- ✅ Todas las secciones llenas
+- ✅ Links funcionando
+- ⏳ Revisado por al menos un miembro del equipo (en review)
 
 ---
 
