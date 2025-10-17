@@ -401,7 +401,9 @@ SwaggerDoc("v1", new OpenApiInfo
 
 ---
 
-## US-010: Configurar Logging Estructurado
+## US-010: Configurar Logging Estructurado ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** ingeniero de SRE  
 **Quiero** logs estructurados con Serilog  
@@ -474,11 +476,11 @@ SwaggerDoc("v1", new OpenApiInfo
 **Prioridad**: 🟡 Alta
 
 ### Definición de Hecho (DoD)
-- Serilog configurado y funcionando
-- Logs visibles en consola
-- Configuración por ambiente
-- Ejemplos de uso en código
-- Documentado en README
+- ✅ Serilog configurado y funcionando
+- ✅ Logs visibles en consola
+- ✅ Configuración por ambiente
+- ✅ Ejemplos de uso en código (StatusController)
+- ⏳ Documentado en README (se actualizará al final del sprint)
 
 ---
 
@@ -486,12 +488,12 @@ SwaggerDoc("v1", new OpenApiInfo
 
 | ID | Historia | Prioridad | Esfuerzo | Estado |
 |---|---|---|---|---|
-| US-005 | Crear Proyecto Web API .NET 8 | 🔴 Crítica | 2 pts | ⏳ Pendiente |
-| US-006 | Configurar Swagger/OpenAPI | 🔴 Crítica | 2 pts | ⏳ Pendiente |
-| US-007 | Implementar Health Checks | 🟡 Alta | 3 pts | ⏳ Pendiente |
-| US-008 | Configurar CORS | 🟢 Media | 2 pts | ⏳ Pendiente |
-| US-009 | Crear StatusController | 🟢 Media | 2 pts | ⏳ Pendiente |
-| US-010 | Configurar Logging | 🟡 Alta | 3 pts | ⏳ Pendiente |
+| US-005 | Crear Proyecto Web API .NET 8 | 🔴 Crítica | 2 pts | ✅ Completada |
+| US-006 | Configurar Swagger/OpenAPI | 🔴 Crítica | 2 pts | ✅ Completada |
+| US-007 | Implementar Health Checks | 🟡 Alta | 3 pts | ✅ Completada |
+| US-008 | Configurar CORS | 🟢 Media | 2 pts | ✅ Completada |
+| US-009 | Crear StatusController | 🟢 Media | 2 pts | ✅ Completada |
+| US-010 | Configurar Logging | 🟡 Alta | 3 pts | ✅ Completada |
 
 **Total Sprint 1**: 14 puntos (~7 horas)
 
