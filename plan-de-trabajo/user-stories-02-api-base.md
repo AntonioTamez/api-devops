@@ -10,7 +10,9 @@ Crear el proyecto base de API .NET 8 con Swagger, configuración básica y endpo
 
 ---
 
-## US-005: Crear Proyecto Web API .NET 8
+## US-005: Crear Proyecto Web API .NET 8 ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador backend  
 **Quiero** crear el proyecto base de Web API en .NET 8  
@@ -48,10 +50,10 @@ Crear el proyecto base de API .NET 8 con Swagger, configuración básica y endpo
 **Prioridad**: 🔴 Crítica
 
 ### Definición de Hecho (DoD)
-- Proyecto creado y compilando
-- Ejecutable localmente
-- Swagger accesible
-- README actualizado con comandos de ejecución
+- ✅ Proyecto creado y compilando
+- ✅ Ejecutable localmente
+- ✅ Swagger accesible
+- ⏳ README actualizado con comandos de ejecución (se actualizará al final del sprint)
 
 ---
 

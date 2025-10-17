@@ -85,7 +85,7 @@ api-devops/
 
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
-| US-005 | Crear Proyecto Web API .NET 8 | 🔴 | 2 pts | ⏳ |
+| US-005 | Crear Proyecto Web API .NET 8 | 🔴 | 2 pts | ✅ |
 | US-006 | Configurar Swagger/OpenAPI | 🔴 | 2 pts | ⏳ |
 | US-007 | Implementar Health Checks | 🟡 | 3 pts | ⏳ |
 | US-008 | Configurar CORS | 🟢 | 2 pts | ⏳ |
@@ -303,7 +303,7 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-004: EditorConfig configurado
 
 ### Sprint 1: API Base
-- [ ] US-005: Proyecto .NET 8 creado
+- [x] US-005: Proyecto .NET 8 creado
 - [ ] US-006: Swagger configurado
 - [ ] US-007: Health checks implementados
 - [ ] US-008: CORS configurado
