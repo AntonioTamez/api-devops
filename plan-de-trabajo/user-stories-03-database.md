@@ -287,7 +287,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
 ---
 
-## US-015: Crear Repositorio y Service Layer
+## US-015: Crear Repositorio y Service Layer ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** arquitecto de software  
 **Quiero** implementar el patrón Repository y Service  
@@ -721,7 +723,7 @@ public class ProductsController : ControllerBase
 | US-012 | Configurar Entity Framework Core | 🔴 Crítica | 3 pts | ✅ Completado |
 | US-013 | Crear Modelo Product | 🔴 Crítica | 3 pts | ✅ Completado |
 | US-014 | Crear y Aplicar Migraciones | 🔴 Crítica | 2 pts | ✅ Completado |
-| US-015 | Repository y Service Layer | 🔴 Crítica | 5 pts | ⏳ Pendiente |
+| US-015 | Repository y Service Layer | 🔴 Crítica | 5 pts | ✅ Completado |
 | US-016 | ProductsController CRUD | 🔴 Crítica | 5 pts | ⏳ Pendiente |
 | US-017 | Health Check SQL Server | 🟡 Alta | 2 pts | ⏳ Pendiente |
 
