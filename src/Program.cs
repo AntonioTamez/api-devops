@@ -1,4 +1,5 @@
 using Serilog;
+using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,15 @@ builder.Services.AddCors(options =>
         }
     });
 });
+
+// Add Rate Limiting
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(
+    builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.Configure<IpRateLimitPolicies>(
+    builder.Configuration.GetSection("IpRateLimitPolicies"));
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -102,6 +112,9 @@ else
 }
 
 app.UseSerilogRequestLogging();
+
+// Rate Limiting (debe ir ANTES de UseHttpsRedirection)
+app.UseIpRateLimiting();
 
 app.UseHttpsRedirection();
 

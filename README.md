@@ -32,6 +32,7 @@ API REST moderna construida con .NET 8, desplegada en Azure Container Apps con i
 
 - ✅ **API REST** con .NET 8 y ASP.NET Core
 - ✅ **Swagger/OpenAPI** para documentación interactiva
+- ✅ **Rate Limiting** basado en IP (10 req/min en producción, 100 req/min en desarrollo)
 - ✅ **Entity Framework Core** con SQL Server
 - ✅ **Docker** y Docker Compose para desarrollo local
 - ✅ **Terraform** para infraestructura como código (IaC)
@@ -51,6 +52,7 @@ API REST moderna construida con .NET 8, desplegada en Azure Container Apps con i
 - **ASP.NET Core** - Web API
 - **Entity Framework Core** - ORM
 - **Serilog** - Logging estructurado
+- **AspNetCoreRateLimit** - Rate limiting basado en IP
 - **FluentValidation** - Validación de modelos
 
 ### Base de Datos

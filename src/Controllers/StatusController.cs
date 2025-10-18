@@ -62,6 +62,11 @@ public class StatusController : ControllerBase
     {
         _logger.LogInformation("Info endpoint called");
         
+        // Obtener configuración de rate limiting
+        var rateLimitConfig = _configuration.GetSection("IpRateLimiting:GeneralRules:0");
+        var rateLimit = rateLimitConfig.GetValue<int>("Limit", 10);
+        var ratePeriod = rateLimitConfig.GetValue<string>("Period", "1m");
+        
         return Ok(new
         {
             ApiName = "DevOps API",
@@ -73,10 +78,21 @@ public class StatusController : ControllerBase
                 "Health Checks",
                 "CORS Configuration",
                 "Structured Logging (Serilog)",
+                "Rate Limiting (IP-based)",
                 "Docker Support",
                 "Terraform IaC",
                 "GitHub Actions CI/CD",
                 "Azure Container Apps Deployment"
+            },
+            Security = new
+            {
+                RateLimiting = new
+                {
+                    Enabled = true,
+                    Limit = rateLimit,
+                    Period = ratePeriod,
+                    Type = "IP-based"
+                }
             },
             Repository = "https://github.com/your-org/api-devops",
             Documentation = $"{Request.Scheme}://{Request.Host}/swagger",
