@@ -222,7 +222,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
 ---
 
-## US-014: Crear y Aplicar Migraciones de EF Core
+## US-014: Crear y Aplicar Migraciones de EF Core ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador  
 **Quiero** crear migraciones de base de datos  
@@ -718,7 +720,7 @@ public class ProductsController : ControllerBase
 |---|---|---|---|---|
 | US-012 | Configurar Entity Framework Core | 🔴 Crítica | 3 pts | ✅ Completado |
 | US-013 | Crear Modelo Product | 🔴 Crítica | 3 pts | ✅ Completado |
-| US-014 | Crear y Aplicar Migraciones | 🔴 Crítica | 2 pts | ⏳ Pendiente |
+| US-014 | Crear y Aplicar Migraciones | 🔴 Crítica | 2 pts | ✅ Completado |
 | US-015 | Repository y Service Layer | 🔴 Crítica | 5 pts | ⏳ Pendiente |
 | US-016 | ProductsController CRUD | 🔴 Crítica | 5 pts | ⏳ Pendiente |
 | US-017 | Health Check SQL Server | 🟡 Alta | 2 pts | ⏳ Pendiente |
