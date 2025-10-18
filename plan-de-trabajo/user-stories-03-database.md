@@ -10,7 +10,9 @@ Integrar Entity Framework Core con SQL Server, crear el modelo de datos inicial 
 
 ---
 
-## US-012: Configurar Entity Framework Core
+## US-012: Configurar Entity Framework Core ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador backend  
 **Quiero** configurar Entity Framework Core con SQL Server  
@@ -712,12 +714,12 @@ public class ProductsController : ControllerBase
 
 | ID | Historia | Prioridad | Esfuerzo | Estado |
 |---|---|---|---|---|
-| US-011 | Configurar Entity Framework Core | 🔴 Crítica | 3 pts | ⏳ Pendiente |
-| US-012 | Crear Modelo Product | 🔴 Crítica | 3 pts | ⏳ Pendiente |
-| US-013 | Crear y Aplicar Migraciones | 🔴 Crítica | 2 pts | ⏳ Pendiente |
-| US-014 | Repository y Service Layer | 🔴 Crítica | 5 pts | ⏳ Pendiente |
-| US-015 | ProductsController CRUD | 🔴 Crítica | 5 pts | ⏳ Pendiente |
-| US-016 | Health Check SQL Server | 🟡 Alta | 2 pts | ⏳ Pendiente |
+| US-012 | Configurar Entity Framework Core | 🔴 Crítica | 3 pts | ✅ Completado |
+| US-013 | Crear Modelo Product | 🔴 Crítica | 3 pts | ⏳ Pendiente |
+| US-014 | Crear y Aplicar Migraciones | 🔴 Crítica | 2 pts | ⏳ Pendiente |
+| US-015 | Repository y Service Layer | 🔴 Crítica | 5 pts | ⏳ Pendiente |
+| US-016 | ProductsController CRUD | 🔴 Crítica | 5 pts | ⏳ Pendiente |
+| US-017 | Health Check SQL Server | 🟡 Alta | 2 pts | ⏳ Pendiente |
 
 **Total Sprint 2**: 20 puntos (~10 horas)
 
