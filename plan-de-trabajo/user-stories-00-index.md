@@ -101,6 +101,25 @@ api-devops/
 
 ---
 
+## 🔐 Sprint 1.5: Seguridad (US-02.5-SECURITY)
+
+**Archivo**: [user-stories-02.5-security.md](./user-stories-02.5-security.md)  
+**Objetivo**: Implementar medidas de seguridad básicas  
+**Puntos**: 3 (~1.5 horas)
+
+| ID | Historia | Prioridad | Puntos | Estado |
+|---|---|---|---|---|
+| US-011 | Implementar Rate Limiting | 🟡 | 3 pts | ⏳ |
+
+**Entregables**:
+- ✅ Rate limiting (10 req/min en producción)
+- ✅ Headers de rate limit en respuestas
+- ✅ HTTP 429 cuando se excede límite
+- ✅ Health checks excluidos del límite
+- ✅ Configuración por ambiente
+
+---
+
 ## 🗄️ Sprint 2: Base de Datos (US-03-DATABASE)
 
 **Archivo**: [user-stories-03-database.md](./user-stories-03-database.md)  
@@ -109,12 +128,12 @@ api-devops/
 
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
-| US-011 | Configurar Entity Framework Core | 🔴 | 3 pts | ⏳ |
-| US-012 | Crear Modelo Product | 🔴 | 3 pts | ⏳ |
-| US-013 | Crear Migraciones EF Core | 🔴 | 2 pts | ⏳ |
-| US-014 | Repository y Service Layer | 🔴 | 5 pts | ⏳ |
-| US-015 | ProductsController CRUD | 🔴 | 5 pts | ⏳ |
-| US-016 | Health Check SQL Server | 🟡 | 2 pts | ⏳ |
+| US-012 | Configurar Entity Framework Core | 🔴 | 3 pts | ⏳ |
+| US-013 | Crear Modelo Product | 🔴 | 3 pts | ⏳ |
+| US-014 | Crear Migraciones EF Core | 🔴 | 2 pts | ⏳ |
+| US-015 | Repository y Service Layer | 🔴 | 5 pts | ⏳ |
+| US-016 | ProductsController CRUD | 🔴 | 5 pts | ⏳ |
+| US-017 | Health Check SQL Server | 🟡 | 2 pts | ⏳ |
 
 **Entregables**:
 - ✅ EF Core configurado con SQL Server
@@ -134,11 +153,11 @@ api-devops/
 
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
-| US-017 | Crear Dockerfile Multi-Stage | 🔴 | 3 pts | ⏳ |
-| US-018 | Crear .dockerignore | 🟢 | 1 pt | ⏳ |
-| US-019 | Docker Compose Local | 🔴 | 5 pts | ⏳ |
-| US-020 | Auto-migration en Startup | 🟡 | 3 pts | ⏳ |
-| US-021 | Documentar Docker | 🟢 | 2 pts | ⏳ |
+| US-018 | Crear Dockerfile Multi-Stage | 🔴 | 3 pts | ⏳ |
+| US-019 | Crear .dockerignore | 🟢 | 1 pt | ⏳ |
+| US-020 | Docker Compose Local | 🔴 | 5 pts | ⏳ |
+| US-021 | Auto-migration en Startup | 🟡 | 3 pts | ⏳ |
+| US-022 | Documentar Docker | 🟢 | 2 pts | ⏳ |
 
 **Entregables**:
 - ✅ Dockerfile optimizado (< 200MB)
@@ -157,10 +176,10 @@ api-devops/
 
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
-| US-022 | Crear Proyecto Tests Unitarios | 🟡 | 2 pts | ⏳ |
-| US-023 | Tests ProductService | 🟡 | 5 pts | ⏳ |
-| US-024 | Tests ProductsController | 🟡 | 5 pts | ⏳ |
-| US-025 | Configurar Code Coverage | 🟢 | 2 pts | ⏳ |
+| US-023 | Crear Proyecto Tests Unitarios | 🟡 | 2 pts | ⏳ |
+| US-024 | Tests ProductService | 🟡 | 5 pts | ⏳ |
+| US-025 | Tests ProductsController | 🟡 | 5 pts | ⏳ |
+| US-026 | Configurar Code Coverage | 🟢 | 2 pts | ⏳ |
 
 **Entregables**:
 - ✅ Proyecto xUnit creado
@@ -179,12 +198,12 @@ api-devops/
 
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
-| US-026 | Configurar Terraform Providers | 🔴 | 3 pts | ⏳ |
-| US-027 | Crear Variables Terraform | 🔴 | 2 pts | ⏳ |
-| US-028 | Recursos Base Azure | 🔴 | 3 pts | ⏳ |
-| US-029 | SQL Server y Database | 🔴 | 3 pts | ⏳ |
-| US-030 | Container Apps | 🔴 | 5 pts | ⏳ |
-| US-031 | Terraform Outputs | 🟡 | 1 pt | ⏳ |
+| US-027 | Configurar Terraform Providers | 🔴 | 3 pts | ⏳ |
+| US-028 | Crear Variables Terraform | 🔴 | 2 pts | ⏳ |
+| US-029 | Recursos Base Azure | 🔴 | 3 pts | ⏳ |
+| US-030 | SQL Server y Database | 🔴 | 3 pts | ⏳ |
+| US-031 | Container Apps | 🔴 | 5 pts | ⏳ |
+| US-032 | Terraform Outputs | 🟡 | 1 pt | ⏳ |
 
 **Entregables**:
 - ✅ Terraform configurado con Azure
@@ -214,12 +233,12 @@ api-devops/
 
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
-| US-032 | Configurar GitHub Secrets | 🔴 | 2 pts | ⏳ |
-| US-033 | Workflow Build y Test | 🔴 | 3 pts | ⏳ |
-| US-034 | Workflow Build Docker | 🔴 | 3 pts | ⏳ |
-| US-035 | Workflow Terraform Apply | 🔴 | 4 pts | ⏳ |
-| US-036 | Workflow Deploy Container App | 🔴 | 5 pts | ⏳ |
-| US-037 | Documentar Pipeline CI/CD | 🟢 | 3 pts | ⏳ |
+| US-033 | Configurar GitHub Secrets | 🔴 | 2 pts | ⏳ |
+| US-034 | Workflow Build y Test | 🔴 | 3 pts | ⏳ |
+| US-035 | Workflow Build Docker | 🔴 | 3 pts | ⏳ |
+| US-036 | Workflow Terraform Apply | 🔴 | 4 pts | ⏳ |
+| US-037 | Workflow Deploy Container App | 🔴 | 5 pts | ⏳ |
+| US-038 | Documentar Pipeline CI/CD | 🟢 | 3 pts | ⏳ |
 
 **Entregables**:
 - ✅ GitHub Secrets configurados
@@ -310,42 +329,45 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-009: Endpoints de ejemplo
 - [x] US-010: Logging configurado
 
+### Sprint 1.5: Seguridad
+- [ ] US-011: Rate limiting implementado
+
 ### Sprint 2: Base de Datos
-- [ ] US-011: EF Core configurado
-- [ ] US-012: Modelo Product creado
-- [ ] US-013: Migraciones creadas
-- [ ] US-014: Service layer implementado
-- [ ] US-015: CRUD completo
-- [ ] US-016: Health check SQL
+- [ ] US-012: EF Core configurado
+- [ ] US-013: Modelo Product creado
+- [ ] US-014: Migraciones creadas
+- [ ] US-015: Service layer implementado
+- [ ] US-016: CRUD completo
+- [ ] US-017: Health check SQL
 
 ### Sprint 3: Docker
-- [ ] US-017: Dockerfile multi-stage
-- [ ] US-018: .dockerignore creado
-- [ ] US-019: docker-compose funcionando
-- [ ] US-020: Auto-migrations
-- [ ] US-021: Documentación Docker
+- [ ] US-018: Dockerfile multi-stage
+- [ ] US-019: .dockerignore creado
+- [ ] US-020: docker-compose funcionando
+- [ ] US-021: Auto-migrations
+- [ ] US-022: Documentación Docker
 
 ### Sprint 4: Testing
-- [ ] US-022: Proyecto tests creado
-- [ ] US-023: Tests ProductService
-- [ ] US-024: Tests ProductsController
-- [ ] US-025: Code coverage configurado
+- [ ] US-023: Proyecto tests creado
+- [ ] US-024: Tests ProductService
+- [ ] US-025: Tests ProductsController
+- [ ] US-026: Code coverage configurado
 
 ### Sprint 5: Terraform
-- [ ] US-026: Providers configurados
-- [ ] US-027: Variables creadas
-- [ ] US-028: Recursos base provisioned
-- [ ] US-029: SQL Database creado
-- [ ] US-030: Container Apps creado
-- [ ] US-031: Outputs configurados
+- [ ] US-027: Providers configurados
+- [ ] US-028: Variables creadas
+- [ ] US-029: Recursos base provisioned
+- [ ] US-030: SQL Database creado
+- [ ] US-031: Container Apps creado
+- [ ] US-032: Outputs configurados
 
 ### Sprint 6: CI/CD
-- [ ] US-032: Secrets configurados
-- [ ] US-033: Workflow build/test
-- [ ] US-034: Workflow Docker build
-- [ ] US-035: Workflow Terraform
-- [ ] US-036: Workflow deployment
-- [ ] US-037: Documentación CI/CD
+- [ ] US-033: Secrets configurados
+- [ ] US-034: Workflow build/test
+- [ ] US-035: Workflow Docker build
+- [ ] US-036: Workflow Terraform
+- [ ] US-037: Workflow deployment
+- [ ] US-038: Documentación CI/CD
 
 ---
 
@@ -355,6 +377,8 @@ Sprint 0 (Setup):   █████                  5 pts
 Sprint 0 (Setup)
     ↓
 Sprint 1 (API Base)
+    ↓
+Sprint 1.5 (Seguridad) ← Opcional pero recomendado
     ↓
 Sprint 2 (Database) ←─────┐
     ↓                     │

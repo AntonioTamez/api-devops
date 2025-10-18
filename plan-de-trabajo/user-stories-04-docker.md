@@ -10,7 +10,7 @@ Contenedorizar la aplicación con Docker, crear docker-compose para desarrollo l
 
 ---
 
-## US-017: Crear Dockerfile Multi-Stage
+## US-018: Crear Dockerfile Multi-Stage
 
 **Como** DevOps engineer  
 **Quiero** un Dockerfile optimizado multi-stage  
@@ -109,7 +109,7 @@ ENTRYPOINT ["dotnet", "DevOpsApi.dll"]
 
 ---
 
-## US-018: Crear .dockerignore
+## US-019: Crear .dockerignore
 
 **Como** DevOps engineer  
 **Quiero** un archivo .dockerignore configurado  
@@ -207,7 +207,7 @@ LICENSE
 
 ---
 
-## US-019: Crear docker-compose.yml para Desarrollo Local
+## US-020: Crear docker-compose.yml para Desarrollo Local
 
 **Como** desarrollador  
 **Quiero** levantar todo el ambiente con un solo comando  
@@ -330,7 +330,7 @@ networks:
 
 ---
 
-## US-020: Crear Script de Inicialización de Base de Datos
+## US-021: Crear Script de Inicialización de Base de Datos
 
 **Como** desarrollador  
 **Quiero** que las migraciones se apliquen automáticamente al levantar  
@@ -433,7 +433,7 @@ exec dotnet DevOpsApi.dll
 
 ---
 
-## US-021: Documentar Comandos Docker
+## US-022: Documentar Comandos Docker
 
 **Como** miembro del equipo  
 **Quiero** documentación clara de todos los comandos Docker  

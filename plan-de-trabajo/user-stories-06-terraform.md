@@ -10,7 +10,7 @@ Crear toda la infraestructura de Azure con Terraform para deployment automatizad
 
 ---
 
-## US-026: Configurar Terraform Providers
+## US-027: Configurar Terraform Providers y Backend
 
 **Como** DevOps engineer  
 **Quiero** configurar Terraform con el provider de Azure  
@@ -104,7 +104,7 @@ provider "azurerm" {
 
 ---
 
-## US-027: Crear Variables de Terraform
+## US-028: Crear Variables y Outputs de Terraform
 
 **Como** DevOps engineer  
 **Quiero** variables parametrizadas  
@@ -271,7 +271,7 @@ tags = {
 7. Commit: "feat: Add Terraform variables for multi-environment support"
 
 ### Dependencias
-- ✅ US-026 (Providers configurados)
+- ✅ US-027 (Providers configurados)
 
 ### Estimación
 **Esfuerzo**: 2 puntos (45 minutos)  
@@ -285,7 +285,7 @@ tags = {
 
 ---
 
-## US-028: Crear Recursos Base de Azure
+## US-029: Crear Recursos Base de Azure
 
 **Como** DevOps engineer  
 **Quiero** provisionar recursos base (Resource Group, Container Registry)  
@@ -367,7 +367,7 @@ resource "azurerm_application_insights" "main" {
 5. Commit: "feat: Add base Azure resources (RG, ACR, App Insights)"
 
 ### Dependencias
-- ✅ US-027 (Variables definidas)
+- ✅ US-028 (Variables definidas)
 
 ### Estimación
 **Esfuerzo**: 3 puntos (1 hora)  
@@ -381,7 +381,7 @@ resource "azurerm_application_insights" "main" {
 
 ---
 
-## US-029: Crear SQL Server y Base de Datos
+## US-030: Crear SQL Server y Base de Datos
 
 **Como** DevOps engineer  
 **Quiero** provisionar Azure SQL Database  
@@ -461,7 +461,7 @@ data "azurerm_client_config" "current" {}
 5. Commit: "feat: Add Azure SQL Server and Database"
 
 ### Dependencias
-- ✅ US-028 (Recursos base creados)
+- ✅ US-029 (Recursos base creados)
 
 ### Estimación
 **Esfuerzo**: 3 puntos (1 hora)  
@@ -475,7 +475,7 @@ data "azurerm_client_config" "current" {}
 
 ---
 
-## US-030: Crear Azure Container Apps Environment
+## US-031: Crear Azure Container Apps Environment
 
 **Como** DevOps engineer  
 **Quiero** Container App Environment y Container App  
@@ -605,7 +605,7 @@ resource "azurerm_container_app" "api" {
 
 ---
 
-## US-031: Crear Outputs de Terraform
+## US-032: Crear Outputs de Terraform
 
 **Como** DevOps engineer  
 **Quiero** outputs de los recursos creados  

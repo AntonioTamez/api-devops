@@ -10,7 +10,7 @@ Integrar Entity Framework Core con SQL Server, crear el modelo de datos inicial 
 
 ---
 
-## US-011: Configurar Entity Framework Core
+## US-012: Configurar Entity Framework Core
 
 **Como** desarrollador backend  
 **Quiero** configurar Entity Framework Core con SQL Server  
@@ -101,7 +101,7 @@ Integrar Entity Framework Core con SQL Server, crear el modelo de datos inicial 
 
 ---
 
-## US-012: Crear Modelo de Entidad Product
+## US-013: Crear Modelo de Entidad Product
 
 **Como** desarrollador  
 **Quiero** una entidad Product con sus configuraciones  
@@ -218,7 +218,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
 ---
 
-## US-013: Crear y Aplicar Migraciones de EF Core
+## US-014: Crear y Aplicar Migraciones de EF Core
 
 **Como** desarrollador  
 **Quiero** crear migraciones de base de datos  
@@ -281,7 +281,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
 ---
 
-## US-014: Crear Repositorio y Service Layer
+## US-015: Crear Repositorio y Service Layer
 
 **Como** arquitecto de software  
 **Quiero** implementar el patrón Repository y Service  
@@ -422,7 +422,7 @@ public class ProductService : IProductService
 
 ---
 
-## US-015: Crear ProductsController con CRUD Completo
+## US-016: Crear ProductsController con CRUD Completo
 
 **Como** consumidor de la API  
 **Quiero** endpoints RESTful para gestionar productos  
@@ -658,7 +658,7 @@ public class ProductsController : ControllerBase
 
 ---
 
-## US-016: Agregar Health Check de SQL Server
+## US-017: Agregar Health Check de SQL Server
 
 **Como** ingeniero de SRE  
 **Quiero** que el health check valide la conexión a SQL Server  

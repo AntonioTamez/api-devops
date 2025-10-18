@@ -10,7 +10,7 @@ Implementar tests unitarios y de integración para garantizar la calidad del có
 
 ---
 
-## US-022: Crear Proyecto de Tests Unitarios
+## US-023: Crear Proyecto de Tests Unitarios
 
 **Como** desarrollador  
 **Quiero** un proyecto de tests unitarios con xUnit  
@@ -73,7 +73,7 @@ Implementar tests unitarios y de integración para garantizar la calidad del có
 
 ---
 
-## US-023: Implementar Tests para ProductService
+## US-024: Implementar Tests para ProductService
 
 **Como** desarrollador  
 **Quiero** tests unitarios para ProductService  
@@ -389,7 +389,7 @@ public class ProductServiceTests : IDisposable
 
 ---
 
-## US-024: Implementar Tests para ProductsController
+## US-025: Implementar Tests para ProductsController
 
 **Como** desarrollador  
 **Quiero** tests para ProductsController  
@@ -609,7 +609,7 @@ public class ProductsControllerTests
 
 ---
 
-## US-025: Configurar Code Coverage
+## US-026: Configurar Code Coverage
 
 **Como** tech lead  
 **Quiero** reportes de code coverage  

@@ -5,23 +5,23 @@
 
 ---
 
-## 🎯 Objetivo del Sprint 6
+## Objetivo del Sprint 6
 Implementar pipeline completo de CI/CD con GitHub Actions para deployment automatizado en Azure.
 
 ---
 
-## US-032: Configurar GitHub Secrets
+## US-033: Configurar GitHub Secrets y Variables
 
 **Como** DevOps engineer  
 **Quiero** configurar secrets en GitHub  
 **Para** permitir autenticación segura en Azure desde el pipeline
 
 ### Criterios de Aceptación
-- ✅ Service Principal credentials configurados
-- ✅ ACR credentials configurados
-- ✅ SQL password configurado
-- ✅ Secrets documentados en README
-- ✅ Secrets NO commiteados en el repo
+- Service Principal credentials configurados
+- ACR credentials configurados
+- SQL password configurado
+- Secrets documentados en README
+- Secrets NO commiteados en el repo
 
 ### Secrets a Configurar
 
@@ -70,12 +70,12 @@ En GitHub: **Settings → Secrets and variables → Actions → New repository s
 5. Commit: "docs: Add instructions for GitHub Secrets configuration"
 
 ### Dependencias
-- ✅ US-026 (Service Principal creado para Terraform)
-- ✅ US-030 (ACR creado con admin habilitado)
+- US-026 (Service Principal creado para Terraform)
+- US-030 (ACR creado con admin habilitado)
 
 ### Estimación
 **Esfuerzo**: 2 puntos (45 minutos)  
-**Prioridad**: 🔴 Crítica
+**Prioridad**: Crítica
 
 ### Definición de Hecho (DoD)
 - Todos los secrets configurados
@@ -85,18 +85,18 @@ En GitHub: **Settings → Secrets and variables → Actions → New repository s
 
 ---
 
-## US-033: Crear Workflow de Build y Test
+## US-034: Crear Workflow de Build y Tests
 
 **Como** desarrollador  
 **Quiero** un workflow que ejecute build y tests en cada PR  
 **Para** validar cambios antes de merge
 
 ### Criterios de Aceptación
-- ✅ Workflow ejecuta en PRs a master
-- ✅ .NET 8 instalado
-- ✅ Restore, build y test ejecutados
-- ✅ Code coverage reportado
-- ✅ Resultados visibles en PR
+- Workflow ejecuta en PRs a master
+- .NET 8 instalado
+- Restore, build y test ejecutados
+- Code coverage reportado
+- Resultados visibles en PR
 
 ### Workflow: .github/workflows/build-test.yml
 
@@ -159,11 +159,11 @@ jobs:
 6. Commit: "ci: Add build and test workflow for PRs"
 
 ### Dependencias
-- ✅ US-022 (Tests implementados)
+- US-022 (Tests implementados)
 
 ### Estimación
 **Esfuerzo**: 3 puntos (1 hora)  
-**Prioridad**: 🔴 Crítica
+**Prioridad**: Crítica
 
 ### Definición de Hecho (DoD)
 - Workflow creado y funcionando
@@ -173,18 +173,18 @@ jobs:
 
 ---
 
-## US-034: Crear Workflow de Build Docker Image
+## US-035: Crear Workflow de Build y Push de Docker Image
 
 **Como** DevOps engineer  
 **Quiero** un job que construya y suba la imagen Docker a ACR  
 **Para** tener artefactos deployables
 
 ### Criterios de Aceptación
-- ✅ Imagen Docker construida correctamente
-- ✅ Tagged con SHA + timestamp
-- ✅ Push a Azure Container Registry
-- ✅ Multi-platform support (opcional)
-- ✅ Cache de layers para velocidad
+- Imagen Docker construida correctamente
+- Tagged con SHA + timestamp
+- Push a Azure Container Registry
+- Multi-platform support (opcional)
+- Cache de layers para velocidad
 
 ### Workflow: .github/workflows/deploy.yml (Parte 1)
 
@@ -259,12 +259,12 @@ jobs:
 5. Commit: "ci: Add Docker build and push to ACR"
 
 ### Dependencias
-- ✅ US-017 (Dockerfile creado)
-- ✅ US-032 (Secrets configurados)
+- US-017 (Dockerfile creado)
+- US-032 (Secrets configurados)
 
 ### Estimación
 **Esfuerzo**: 3 puntos (1.5 horas)  
-**Prioridad**: 🔴 Crítica
+**Prioridad**: Crítica
 
 ### Definición de Hecho (DoD)
 - Imagen se construye correctamente
@@ -274,18 +274,18 @@ jobs:
 
 ---
 
-## US-035: Crear Workflow de Terraform Apply
+## US-036: Crear Workflow de Terraform Apply
 
 **Como** DevOps engineer  
 **Quiero** un job que aplique cambios de Terraform  
 **Para** actualizar infraestructura automáticamente
 
 ### Criterios de Aceptación
-- ✅ Terraform init, plan y apply ejecutados
-- ✅ Plan visible en PR (comentario)
-- ✅ Apply solo en push a master
-- ✅ Outputs guardados para siguiente job
-- ✅ State remoto configurado
+- Terraform init, plan y apply ejecutados
+- Plan visible en PR (comentario)
+- Apply solo en push a master
+- Outputs guardados para siguiente job
+- State remoto configurado
 
 ### deploy.yml (Parte 2 - Terraform)
 
@@ -351,12 +351,12 @@ jobs:
 5. Commit: "ci: Add Terraform deployment job"
 
 ### Dependencias
-- ✅ US-031 (Terraform completo)
-- ✅ US-032 (Secrets configurados)
+- US-031 (Terraform completo)
+- US-032 (Secrets configurados)
 
 ### Estimación
 **Esfuerzo**: 4 puntos (2 horas)  
-**Prioridad**: 🔴 Crítica
+**Prioridad**: Crítica
 
 ### Definición de Hecho (DoD)
 - Terraform apply exitoso desde GitHub
@@ -366,7 +366,7 @@ jobs:
 
 ---
 
-## US-036: Crear Workflow de Deployment a Container App
+## US-037: Crear Workflow de Deployment a Container Apps
 
 **Como** DevOps engineer  
 **Quiero** actualizar Container App con nueva imagen  
@@ -493,7 +493,7 @@ jobs:
 
 ---
 
-## US-037: Documentar Pipeline CI/CD
+## US-038: Documentar Pipeline CI/CD
 
 **Como** miembro del equipo  
 **Quiero** documentación completa del pipeline  
