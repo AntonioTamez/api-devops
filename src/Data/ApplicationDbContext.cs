@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using DevOpsApi.Models;
 
 namespace DevOpsApi.Data;
 
@@ -12,15 +13,17 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    // DbSets se agregarán aquí cuando se creen las entidades
-    // public DbSet<Product> Products { get; set; }
+    /// <summary>
+    /// DbSet de productos
+    /// </summary>
+    public DbSet<Product> Products { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configuraciones de Fluent API se agregarán aquí
-        // modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        // Aplicar todas las configuraciones de Fluent API del assembly
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
