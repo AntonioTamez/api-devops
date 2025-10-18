@@ -2,6 +2,8 @@ using Serilog;
 using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 using DevOpsApi.Data;
+using DevOpsApi.Repositories;
+using DevOpsApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +70,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.EnableDetailedErrors();
     }
 });
+
+// Add Repository and Service Layer
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 // Add Rate Limiting
 builder.Services.AddMemoryCache();
