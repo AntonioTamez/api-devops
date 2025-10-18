@@ -668,7 +668,9 @@ public class ProductsController : ControllerBase
 
 ---
 
-## US-017: Agregar Health Check de SQL Server
+## US-017: Agregar Health Check de SQL Server ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** ingeniero de SRE  
 **Quiero** que el health check valide la conexión a SQL Server  
@@ -727,7 +729,7 @@ public class ProductsController : ControllerBase
 | US-014 | Crear y Aplicar Migraciones | 🔴 Crítica | 2 pts | ✅ Completado |
 | US-015 | Repository y Service Layer | 🔴 Crítica | 5 pts | ✅ Completado |
 | US-016 | ProductsController CRUD | 🔴 Crítica | 5 pts | ✅ Completado |
-| US-017 | Health Check SQL Server | 🟡 Alta | 2 pts | ⏳ Pendiente |
+| US-017 | Health Check SQL Server | 🟡 Alta | 2 pts | ✅ Completado |
 
 **Total Sprint 2**: 20 puntos (~10 horas)
 

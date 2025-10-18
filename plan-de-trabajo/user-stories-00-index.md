@@ -133,7 +133,7 @@ api-devops/
 | US-014 | Crear Migraciones EF Core | 🔴 | 2 pts | ✅ |
 | US-015 | Repository y Service Layer | 🔴 | 5 pts | ✅ |
 | US-016 | ProductsController CRUD | 🔴 | 5 pts | ✅ |
-| US-017 | Health Check SQL Server | 🟡 | 2 pts | ⏳ |
+| US-017 | Health Check SQL Server | 🟡 | 2 pts | ✅ |
 
 **Entregables**:
 - ✅ EF Core configurado con SQL Server
@@ -338,7 +338,7 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-014: Migraciones creadas
 - [x] US-015: Service layer implementado
 - [x] US-016: CRUD completo
-- [ ] US-017: Health check SQL
+- [x] US-017: Health check SQL
 
 ### Sprint 3: Docker
 - [ ] US-018: Dockerfile multi-stage
