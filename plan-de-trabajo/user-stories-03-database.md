@@ -103,7 +103,9 @@ Integrar Entity Framework Core con SQL Server, crear el modelo de datos inicial 
 
 ---
 
-## US-013: Crear Modelo de Entidad Product
+## US-013: Crear Modelo de Entidad Product ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador  
 **Quiero** una entidad Product con sus configuraciones  
@@ -715,7 +717,7 @@ public class ProductsController : ControllerBase
 | ID | Historia | Prioridad | Esfuerzo | Estado |
 |---|---|---|---|---|
 | US-012 | Configurar Entity Framework Core | 🔴 Crítica | 3 pts | ✅ Completado |
-| US-013 | Crear Modelo Product | 🔴 Crítica | 3 pts | ⏳ Pendiente |
+| US-013 | Crear Modelo Product | 🔴 Crítica | 3 pts | ✅ Completado |
 | US-014 | Crear y Aplicar Migraciones | 🔴 Crítica | 2 pts | ⏳ Pendiente |
 | US-015 | Repository y Service Layer | 🔴 Crítica | 5 pts | ⏳ Pendiente |
 | US-016 | ProductsController CRUD | 🔴 Crítica | 5 pts | ⏳ Pendiente |

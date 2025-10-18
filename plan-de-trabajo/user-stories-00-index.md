@@ -129,7 +129,7 @@ api-devops/
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
 | US-012 | Configurar Entity Framework Core | 🔴 | 3 pts | ✅ |
-| US-013 | Crear Modelo Product | 🔴 | 3 pts | ⏳ |
+| US-013 | Crear Modelo Product | 🔴 | 3 pts | ✅ |
 | US-014 | Crear Migraciones EF Core | 🔴 | 2 pts | ⏳ |
 | US-015 | Repository y Service Layer | 🔴 | 5 pts | ⏳ |
 | US-016 | ProductsController CRUD | 🔴 | 5 pts | ⏳ |
@@ -334,7 +334,7 @@ Sprint 0 (Setup):   █████                  5 pts
 
 ### Sprint 2: Base de Datos
 - [x] US-012: EF Core configurado
-- [ ] US-013: Modelo Product creado
+- [x] US-013: Modelo Product creado
 - [ ] US-014: Migraciones creadas
 - [ ] US-015: Service layer implementado
 - [ ] US-016: CRUD completo
