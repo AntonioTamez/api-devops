@@ -3,7 +3,7 @@
 **Sprint ID**: US-02.5-SECURITY  
 **Objetivo**: Implementar medidas de seguridad para proteger el API  
 **Puntos totales**: 3 (~1.5 horas)  
-**Estado**: ⏳ Pendiente
+**Estado**: ✅ Completado
 
 ---
 
@@ -286,7 +286,7 @@ Retry-After: 60
 
 | ID | Historia | Prioridad | Esfuerzo | Estado |
 |---|---|---|---|---|
-| US-011 | Implementar Rate Limiting | 🟡 Alta | 3 pts | ⏳ Pendiente |
+| US-011 | Implementar Rate Limiting | 🟡 Alta | 3 pts | ✅ Completado |
 
 **Total Sprint 1.5**: 3 puntos (~1.5 horas)
 

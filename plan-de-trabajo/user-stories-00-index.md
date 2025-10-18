@@ -109,7 +109,7 @@ api-devops/
 
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
-| US-011 | Implementar Rate Limiting | 🟡 | 3 pts | ⏳ |
+| US-011 | Implementar Rate Limiting | 🟡 | 3 pts | ✅ |
 
 **Entregables**:
 - ✅ Rate limiting (10 req/min en producción)
@@ -330,7 +330,7 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-010: Logging configurado
 
 ### Sprint 1.5: Seguridad
-- [ ] US-011: Rate limiting implementado
+- [x] US-011: Rate limiting implementado
 
 ### Sprint 2: Base de Datos
 - [ ] US-012: EF Core configurado
