@@ -334,7 +334,9 @@ networks:
 
 ---
 
-## US-021: Crear Script de Inicialización de Base de Datos
+## US-021: Crear Script de Inicialización de Base de Datos ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador  
 **Quiero** que las migraciones se apliquen automáticamente al levantar  
@@ -563,7 +565,7 @@ docker-compose up --build
 | US-018 | Crear Dockerfile Multi-Stage | 🔴 Crítica | 3 pts | ✅ Completado |
 | US-019 | Crear .dockerignore | 🟢 Media | 1 pt | ✅ Completado |
 | US-020 | Docker Compose Local | 🔴 Crítica | 5 pts | ✅ Completado |
-| US-021 | Auto-migration en Startup | 🟡 Alta | 3 pts | ⏳ Pendiente |
+| US-021 | Auto-migration en Startup | 🟡 Alta | 3 pts | ✅ Completado |
 | US-022 | Documentar Docker | 🟢 Media | 2 pts | ⏳ Pendiente |
 
 **Total Sprint 3**: 14 puntos (~7 horas)

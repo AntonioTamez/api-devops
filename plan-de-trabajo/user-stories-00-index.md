@@ -156,7 +156,7 @@ api-devops/
 | US-018 | Crear Dockerfile Multi-Stage | 🔴 | 3 pts | ✅ |
 | US-019 | Crear .dockerignore | 🟢 | 1 pt | ✅ |
 | US-020 | Docker Compose Local | 🔴 | 5 pts | ✅ |
-| US-021 | Auto-migration en Startup | 🟡 | 3 pts | ⏳ |
+| US-021 | Auto-migration en Startup | 🟡 | 3 pts | ✅ |
 | US-022 | Documentar Docker | 🟢 | 2 pts | ⏳ |
 
 **Entregables**:
@@ -344,7 +344,7 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-018: Dockerfile multi-stage
 - [x] US-019: .dockerignore creado
 - [x] US-020: docker-compose funcionando
-- [ ] US-021: Auto-migrations
+- [x] US-021: Auto-migrations
 - [ ] US-022: Documentación Docker
 
 ### Sprint 4: Testing
