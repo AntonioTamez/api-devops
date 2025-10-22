@@ -18,6 +18,7 @@ API REST moderna construida con .NET 8, desplegada en Azure Container Apps con i
 - [Quick Start](#-quick-start)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
 - [Desarrollo Local](#-desarrollo-local)
+- [Docker y Containerización](#-docker-y-containerización)
 - [Testing](#-testing)
 - [Deployment](#-deployment)
 - [Arquitectura](#-arquitectura)
@@ -127,23 +128,27 @@ cd api-devops
 
 ### 2. Levantar con Docker Compose (Recomendado)
 
-La forma más rápida de ejecutar el proyecto localmente:
+La forma más rápida de ejecutar el proyecto localmente con **un solo comando**:
 
 ```bash
-# Levantar API + SQL Server + aplicar migraciones
+# Levantar API + SQL Server + aplicar migraciones automáticamente
 docker-compose up -d
 
-# Ver logs
+# Ver logs en tiempo real
+docker-compose logs -f
+
+# Ver logs solo de la API
 docker-compose logs -f api
 
-# Abrir Swagger
-start http://localhost:5000
+# Verificar que los servicios están corriendo
+docker-compose ps
 ```
 
 La API estará disponible en:
-- **API**: http://localhost:5000
-- **Swagger UI**: http://localhost:5000/swagger
-- **Health Check**: http://localhost:5000/health
+- **API**: http://localhost:5065
+- **Swagger UI**: http://localhost:5065/swagger
+- **Health Check**: http://localhost:5065/health
+- **SQL Server**: localhost:1433 (sa/YourStrong@Passw0rd)
 
 ### 3. Ejecutar sin Docker (Alternativa)
 
@@ -267,6 +272,229 @@ Crear archivo `src/appsettings.Development.json` (ya excluido en .gitignore):
     }
   }
 }
+```
+
+---
+
+## 🐳 Docker y Containerización
+
+### Dockerfile Multi-Stage
+
+El proyecto incluye un Dockerfile optimizado con Alpine Linux:
+
+**Características:**
+- ✅ **Multi-stage build** (build + runtime)
+- ✅ **Imagen ligera**: 201MB (Alpine Linux)
+- ✅ **Usuario no-root** para seguridad
+- ✅ **Health check** integrado
+- ✅ **Layer caching** optimizado
+
+```bash
+# Build imagen manualmente
+docker build -t devops-api:latest .
+
+# Ver tamaño de imagen
+docker images devops-api:latest
+
+# Ejecutar contenedor
+docker run -d -p 5065:8080 \
+  -e ConnectionStrings__DefaultConnection="Server=host.docker.internal,1433;..." \
+  devops-api:latest
+```
+
+### Docker Compose - Ambiente Completo
+
+#### Servicios Incluidos:
+
+**1. SQL Server 2022 Developer Edition**
+- Puerto: 1433
+- Usuario: sa
+- Password: Configurable en `.env`
+- Volumen persistente para datos
+- Health check automático
+
+**2. API (.NET 8)**
+- Puerto: 5065
+- Build desde Dockerfile local
+- Migraciones automáticas al iniciar
+- Seed data de ejemplo (5 productos)
+- Depende de SQL Server (espera health check)
+
+#### Comandos Docker Compose
+
+```bash
+# Iniciar todos los servicios
+docker-compose up
+
+# Iniciar en background (detached)
+docker-compose up -d
+
+# Ver logs en tiempo real
+docker-compose logs -f
+
+# Ver logs de un servicio específico
+docker-compose logs -f api
+docker-compose logs -f sqlserver
+
+# Verificar estado de servicios
+docker-compose ps
+
+# Detener servicios (mantiene datos)
+docker-compose stop
+
+# Detener y eliminar contenedores
+docker-compose down
+
+# Detener y eliminar contenedores + volúmenes (limpieza completa)
+docker-compose down -v
+
+# Rebuild imagen y reiniciar
+docker-compose up --build
+
+# Ver recursos utilizados
+docker-compose stats
+```
+
+#### Variables de Entorno (.env)
+
+Crear archivo `.env` basado en `.env.example`:
+
+```bash
+# Copiar template
+cp .env.example .env
+
+# Editar valores
+nano .env
+```
+
+Configuraciones disponibles:
+
+```bash
+# SQL Server
+SQL_SA_PASSWORD=YourStrong@Passw0rd
+SQL_PORT=1433
+DB_NAME=DevOpsDb
+
+# API
+API_PORT=5065
+ASPNETCORE_ENVIRONMENT=Development
+
+# CORS
+CORS_ORIGIN=*
+
+# Rate Limiting
+ENABLE_RATE_LIMITING=true
+RATE_LIMIT=100
+RATE_PERIOD=1m
+```
+
+### Migraciones Automáticas
+
+Las migraciones se aplican **automáticamente** al iniciar la API:
+
+**Proceso:**
+1. API verifica conexión a SQL Server (retry logic: 10 intentos × 3s)
+2. Lista migraciones pendientes
+3. Aplica migraciones si hay pendientes
+4. Inserta seed data si la DB está vacía (5 productos de ejemplo)
+5. Inicia el servidor
+
+**Logs de ejemplo:**
+```
+🔄 Checking database connection and applying migrations...
+✅ Database connection established
+📝 Found 1 pending migration(s). Applying...
+  - 20241021_InitialCreate
+✅ Database migrations applied successfully
+🌱 Seeding initial data...
+✅ Seed data applied successfully. Added 5 products
+```
+
+**Productos de ejemplo incluidos:**
+- Laptop Dell XPS 15 - $1,299.99
+- Wireless Mouse Logitech MX Master 3 - $99.99
+- Mechanical Keyboard Keychron K2 - $79.99
+- USB-C Hub Anker 7-in-1 - $49.99
+- Monitor LG 27 UltraFine 4K - $599.99
+
+### Troubleshooting Docker
+
+#### SQL Server no inicia
+
+```bash
+# Ver logs detallados
+docker-compose logs sqlserver
+
+# Verificar recursos disponibles
+docker system df
+
+# Reiniciar contenedor
+docker-compose restart sqlserver
+
+# Verificar health check
+docker inspect devops-sqlserver --format='{{.State.Health.Status}}'
+```
+
+#### API no puede conectar a SQL Server
+
+```bash
+# Verificar que SQL Server está healthy
+docker-compose ps
+
+# Debe mostrar: healthy en la columna Status
+# Si muestra unhealthy, esperar más tiempo o revisar logs
+
+# Ver variables de entorno de la API
+docker-compose exec api env | grep Connection
+
+# Verificar network
+docker network inspect devops-network
+```
+
+#### Migraciones no se aplican
+
+```bash
+# Ver logs de la API durante startup
+docker-compose logs api | grep migration
+
+# Aplicar migraciones manualmente (dentro del contenedor)
+docker-compose exec api dotnet ef database update
+
+# O aplicar desde host (si tienes .NET SDK)
+dotnet ef database update --project src
+```
+
+#### Puerto en uso
+
+```bash
+# Cambiar puertos en docker-compose.yml
+ports:
+  - "5066:8080"  # Cambiar 5065 por 5066
+
+# O detener el proceso que usa el puerto
+# Windows:
+netstat -ano | findstr :5065
+taskkill /PID <PID> /F
+
+# Linux/Mac:
+lsof -i :5065
+kill -9 <PID>
+```
+
+#### Limpiar todo y empezar de cero
+
+```bash
+# Detener y eliminar todo
+docker-compose down -v
+
+# Eliminar imágenes
+docker rmi devops-api:latest
+
+# Limpiar sistema Docker
+docker system prune -a --volumes
+
+# Rebuild desde cero
+docker-compose up --build
 ```
 
 ---
