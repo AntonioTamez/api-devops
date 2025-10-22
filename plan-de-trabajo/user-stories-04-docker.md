@@ -10,7 +10,9 @@ Contenedorizar la aplicación con Docker, crear docker-compose para desarrollo l
 
 ---
 
-## US-018: Crear Dockerfile Multi-Stage
+## US-018: Crear Dockerfile Multi-Stage ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** DevOps engineer  
 **Quiero** un Dockerfile optimizado multi-stage  
@@ -556,11 +558,11 @@ docker-compose up --build
 
 | ID | Historia | Prioridad | Esfuerzo | Estado |
 |---|---|---|---|---|
-| US-017 | Crear Dockerfile Multi-Stage | 🔴 Crítica | 3 pts | ⏳ Pendiente |
-| US-018 | Crear .dockerignore | 🟢 Media | 1 pt | ⏳ Pendiente |
-| US-019 | Docker Compose Local | 🔴 Crítica | 5 pts | ⏳ Pendiente |
-| US-020 | Auto-migration en Startup | 🟡 Alta | 3 pts | ⏳ Pendiente |
-| US-021 | Documentar Docker | 🟢 Media | 2 pts | ⏳ Pendiente |
+| US-018 | Crear Dockerfile Multi-Stage | 🔴 Crítica | 3 pts | ✅ Completado |
+| US-019 | Crear .dockerignore | 🟢 Media | 1 pt | ✅ Completado |
+| US-020 | Docker Compose Local | 🔴 Crítica | 5 pts | ⏳ Pendiente |
+| US-021 | Auto-migration en Startup | 🟡 Alta | 3 pts | ⏳ Pendiente |
+| US-022 | Documentar Docker | 🟢 Media | 2 pts | ⏳ Pendiente |
 
 **Total Sprint 3**: 14 puntos (~7 horas)
 
