@@ -1,0 +1,73 @@
+services:
+  # =============================================================================
+  # SQL Server Service
+  # =============================================================================
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: devops-sqlserver
+    hostname: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SQL_SA_PASSWORD:-YourStrong!Passw0rd}
+      - MSSQL_PID=Developer
+    ports:
+      - "${SQL_PORT:-1433}:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - devops-network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SQL_SA_PASSWORD:-YourStrong!Passw0rd} -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # =============================================================================
+  # API Service
+  # =============================================================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: devops-api:latest
+    container_name: devops-api
+    hostname: api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=${DB_NAME:-DevOpsDb};User Id=sa;Password=${SQL_SA_PASSWORD:-YourStrong!Passw0rd};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - Cors__AllowedOrigins__0=${CORS_ORIGIN:-*}
+      - IpRateLimiting__EnableEndpointRateLimiting=${ENABLE_RATE_LIMITING:-true}
+      - IpRateLimiting__GeneralRules__0__Limit=${RATE_LIMIT:-100}
+      - IpRateLimiting__GeneralRules__0__Period=${RATE_PERIOD:-1m}
+    ports:
+      - "${API_PORT:-5065}:8080"
+    networks:
+      - devops-network
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  devops-network:
+    name: devops-network
+    driver: bridge
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  sqlserver-data:
+    name: devops-sqlserver-data
