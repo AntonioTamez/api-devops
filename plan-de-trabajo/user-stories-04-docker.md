@@ -209,7 +209,9 @@ LICENSE
 
 ---
 
-## US-020: Crear docker-compose.yml para Desarrollo Local
+## US-020: Crear docker-compose.yml para Desarrollo Local ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** desarrollador  
 **Quiero** levantar todo el ambiente con un solo comando  
@@ -560,7 +562,7 @@ docker-compose up --build
 |---|---|---|---|---|
 | US-018 | Crear Dockerfile Multi-Stage | 🔴 Crítica | 3 pts | ✅ Completado |
 | US-019 | Crear .dockerignore | 🟢 Media | 1 pt | ✅ Completado |
-| US-020 | Docker Compose Local | 🔴 Crítica | 5 pts | ⏳ Pendiente |
+| US-020 | Docker Compose Local | 🔴 Crítica | 5 pts | ✅ Completado |
 | US-021 | Auto-migration en Startup | 🟡 Alta | 3 pts | ⏳ Pendiente |
 | US-022 | Documentar Docker | 🟢 Media | 2 pts | ⏳ Pendiente |
 
