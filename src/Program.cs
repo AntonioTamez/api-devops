@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using DevOpsApi.Data;
 using DevOpsApi.Repositories;
 using DevOpsApi.Services;
+using DevOpsApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -178,5 +179,8 @@ app.MapHealthChecks("/health/live", new Microsoft.AspNetCore.Diagnostics.HealthC
     Predicate = _ => false, // Solo verifica que el proceso está vivo
     ResponseWriter = HealthChecks.UI.Client.UIResponseWriter.WriteHealthCheckUIResponse
 });
+
+// Apply database migrations automatically
+await app.ApplyMigrationsAsync();
 
 app.Run();
