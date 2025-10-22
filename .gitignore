@@ -350,7 +350,6 @@ appsettings.*.json
 ####################
 
 docker-compose.override.yml
-.dockerignore
 *.log
 volumes/
 **/logs/

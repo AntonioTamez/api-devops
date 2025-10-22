@@ -1,0 +1,57 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+docs/
+plan-de-trabajo/
+
+# CI/CD
+.github/
+.azure/
+azure-pipelines.yml
+
+# IDEs
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userprefs
+
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+**/publish/
+**/*.dll
+**/*.exe
+
+# Logs
+**/logs/
+**/*.log
+
+# Test
+**/TestResults/
+**/*.trx
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Terraform
+terraform/
+*.tf
+*.tfstate
+*.tfvars
+
+# Temporary files
+*.tmp
+*.temp
+*~
+.DS_Store
+Thumbs.db
