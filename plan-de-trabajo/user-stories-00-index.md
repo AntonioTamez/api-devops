@@ -157,7 +157,7 @@ api-devops/
 | US-019 | Crear .dockerignore | 🟢 | 1 pt | ✅ |
 | US-020 | Docker Compose Local | 🔴 | 5 pts | ✅ |
 | US-021 | Auto-migration en Startup | 🟡 | 3 pts | ✅ |
-| US-022 | Documentar Docker | 🟢 | 2 pts | ⏳ |
+| US-022 | Documentar Docker | 🟢 | 2 pts | ✅ |
 
 **Entregables**:
 - ✅ Dockerfile optimizado (< 200MB)
@@ -345,7 +345,7 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-019: .dockerignore creado
 - [x] US-020: docker-compose funcionando
 - [x] US-021: Auto-migrations
-- [ ] US-022: Documentación Docker
+- [x] US-022: Documentación Docker
 
 ### Sprint 4: Testing
 - [ ] US-023: Proyecto tests creado

@@ -439,7 +439,9 @@ exec dotnet DevOpsApi.dll
 
 ---
 
-## US-022: Documentar Comandos Docker
+## US-022: Documentar Comandos Docker ✅
+
+**Estado**: ✅ **COMPLETADA**
 
 **Como** miembro del equipo  
 **Quiero** documentación clara de todos los comandos Docker  
@@ -566,7 +568,7 @@ docker-compose up --build
 | US-019 | Crear .dockerignore | 🟢 Media | 1 pt | ✅ Completado |
 | US-020 | Docker Compose Local | 🔴 Crítica | 5 pts | ✅ Completado |
 | US-021 | Auto-migration en Startup | 🟡 Alta | 3 pts | ✅ Completado |
-| US-022 | Documentar Docker | 🟢 Media | 2 pts | ⏳ Pendiente |
+| US-022 | Documentar Docker | 🟢 Media | 2 pts | ✅ Completado |
 
 **Total Sprint 3**: 14 puntos (~7 horas)
 
