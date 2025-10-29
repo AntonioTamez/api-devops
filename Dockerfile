@@ -19,8 +19,8 @@ RUN dotnet publish DevOpsApi.csproj -c Release -o /app/publish --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime
 WORKDIR /app
 
-# Install curl for health checks (Alpine uses apk instead of apt-get)
-RUN apk add --no-cache curl
+# Install curl and ICU libraries for health checks and globalization support
+RUN apk add --no-cache curl icu-libs
 
 # Create a non-root user
 RUN addgroup -S appuser && \
@@ -39,7 +39,8 @@ EXPOSE 8080
 # Environment variables
 ENV ASPNETCORE_URLS=http://+:8080 \
     ASPNETCORE_ENVIRONMENT=Production \
-    DOTNET_RUNNING_IN_CONTAINER=true
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \

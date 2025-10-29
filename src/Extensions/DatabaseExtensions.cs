@@ -30,14 +30,7 @@ public static class DatabaseExtensions
             {
                 try
                 {
-                    // Verificar si puede conectar
-                    var canConnect = await context.Database.CanConnectAsync();
-                    
-                    if (!canConnect)
-                    {
-                        throw new Exception("Cannot connect to database");
-                    }
-
+                    // Intentar conectar y obtener migraciones
                     logger.LogInformation("✅ Database connection established");
 
                     // Obtener migraciones pendientes
@@ -67,9 +60,9 @@ public static class DatabaseExtensions
                 }
                 catch (Exception ex) when (retry < maxRetries)
                 {
-                    logger.LogWarning(
-                        "⚠️ Could not apply migrations (attempt {Retry}/{MaxRetries}): {Message}",
-                        retry, maxRetries, ex.Message);
+                    logger.LogWarning(ex,
+                        "⚠️ Could not apply migrations (attempt {Retry}/{MaxRetries})",
+                        retry, maxRetries);
                     
                     logger.LogInformation("⏳ Waiting {Seconds} seconds before retry...", retryDelay.TotalSeconds);
                     await Task.Delay(retryDelay);
