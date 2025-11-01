@@ -571,24 +571,113 @@ El proyecto cuenta con **50 tests unitarios**:
 
 ### Code Coverage
 
-```bash
-# Generar reporte de cobertura
-dotnet test --collect:"XPlat Code Coverage"
+#### Opción 1: Script Automatizado (Recomendado) ⚡
 
-# Generar reporte HTML con ReportGenerator
-reportgenerator \
-  -reports:"**/coverage.cobertura.xml" \
-  -targetdir:"coverage-report" \
-  -reporttypes:Html
+La forma más fácil de generar el reporte de coverage:
 
-# Abrir reporte
-start coverage-report/index.html
+```powershell
+# Ejecuta tests, genera reporte y lo abre en el navegador
+.\scripts\coverage.ps1
 ```
+
+Este script hace todo automáticamente:
+1. ✅ Ejecuta todos los tests con recolección de coverage
+2. ✅ Genera reporte HTML con ReportGenerator
+3. ✅ Abre el reporte en tu navegador predeterminado
+
+---
+
+#### Opción 2: Comandos Manuales Paso a Paso 🔧
+
+Si prefieres ejecutar los comandos manualmente o entender el proceso:
+
+**Paso 1: Limpiar reportes anteriores (opcional)**
+```powershell
+Remove-Item -Path TestResults -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path coverage-report -Recurse -Force -ErrorAction SilentlyContinue
+```
+
+**Paso 2: Ejecutar tests con recolección de coverage**
+```powershell
+dotnet test --collect:'XPlat Code Coverage' --results-directory:TestResults
+```
+Esto ejecutará todos los tests y generará un archivo `coverage.cobertura.xml` en la carpeta `TestResults`.
+
+**Paso 3: Generar reporte HTML con ReportGenerator**
+```powershell
+reportgenerator -reports:TestResults\**\coverage.cobertura.xml -targetdir:coverage-report -reporttypes:Html
+```
+Esto procesa el archivo XML y genera un reporte HTML navegable.
+
+**Paso 4: Abrir el reporte en el navegador**
+```powershell
+# Windows
+Start-Process coverage-report\index.html
+
+# Linux/Mac
+open coverage-report/index.html
+```
+
+---
+
+#### Verificar Instalación de ReportGenerator
+
+Si el comando `reportgenerator` no funciona, instálalo globalmente:
+
+```bash
+dotnet tool install -g dotnet-reportgenerator-globaltool
+
+# Verificar instalación
+reportgenerator --version
+```
+
+---
+
+#### Interpretar el Reporte de Coverage
+
+El reporte HTML (`coverage-report/index.html`) muestra:
+
+- **Summary**: Resumen general del proyecto
+- **Line Coverage**: Porcentaje de líneas de código ejecutadas
+- **Branch Coverage**: Porcentaje de ramas (if/else, switch) cubiertas
+- **Method Coverage**: Porcentaje de métodos probados
+
+**Código de colores:**
+- 🟢 Verde (>80%): Buena cobertura
+- 🟡 Amarillo (60-80%): Cobertura aceptable
+- 🔴 Rojo (<60%): Necesita más tests
 
 **Objetivos de Coverage:**
 - ✅ Mínimo aceptable: **80%**
 - 🎯 Objetivo: **90%**
 - 🌟 Excelente: **95%+**
+
+---
+
+#### Troubleshooting
+
+**Problema: "reportgenerator no se reconoce como comando"**
+```bash
+# Solución: Instalar ReportGenerator
+dotnet tool install -g dotnet-reportgenerator-globaltool
+
+# Reiniciar terminal después de instalar
+```
+
+**Problema: "No se encuentran archivos de coverage"**
+```bash
+# Verificar que se generaron los archivos
+Get-ChildItem -Path TestResults -Recurse -Filter "coverage.cobertura.xml"
+
+# Si no hay archivos, ejecutar tests nuevamente
+dotnet test --collect:'XPlat Code Coverage' --results-directory:TestResults
+```
+
+**Problema: "Los tests fallan"**
+```bash
+# Ejecutar tests sin coverage primero para ver errores
+dotnet test --verbosity normal
+```
 
 ### Tecnologías de Testing
 
