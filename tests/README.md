@@ -21,6 +21,20 @@ tests/
 - **FluentAssertions**: Assertions más legibles
 - **Coverlet**: Code coverage
 
-## Próximos pasos
+## Estado
 
-Los proyectos de testing se crearán en el Sprint 4.
+- ✅ **DevOpsApi.UnitTests**: Proyecto creado y configurado
+- ⏳ **DevOpsApi.IntegrationTests**: Pendiente
+
+## Ejecutar Tests
+
+```bash
+# Ejecutar todos los tests
+dotnet test
+
+# Ejecutar solo tests unitarios
+dotnet test tests/DevOpsApi.UnitTests
+
+# Ejecutar con coverage
+dotnet test --collect:"XPlat Code Coverage"
+```
