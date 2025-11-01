@@ -156,6 +156,19 @@ La API estará disponible en:
 - **Health Check**: http://localhost:5065/health
 - **SQL Server**: localhost:1433 (sa/YourStrong@Passw0rd)
 
+**Detener los contenedores:**
+
+```bash
+# Detener contenedores (mantiene datos)
+docker-compose stop
+
+# Detener y eliminar contenedores (mantiene volúmenes/datos)
+docker-compose down
+
+# Detener, eliminar contenedores Y eliminar volúmenes (limpieza completa)
+docker-compose down -v
+```
+
 ### 3. Ejecutar sin Docker (Alternativa)
 
 ```bash
@@ -176,12 +189,6 @@ start http://localhost:5000/swagger
 ```
 
 **Nota**: El proyecto incluye un archivo de solución `DevOpsApi.sln` que contiene tanto el proyecto principal como el proyecto de tests.
-
-### 4. Detener servicios
-
-```bash
-docker-compose down
-```
 
 ---
 
