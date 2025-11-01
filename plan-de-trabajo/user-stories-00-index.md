@@ -179,7 +179,7 @@ api-devops/
 | US-023 | Crear Proyecto Tests Unitarios | 🟡 | 2 pts | ✅ |
 | US-024 | Tests ProductService | 🟡 | 5 pts | ✅ |
 | US-025 | Tests ProductsController | 🟡 | 5 pts | ✅ |
-| US-026 | Configurar Code Coverage | 🟢 | 2 pts | ⏳ |
+| US-026 | Configurar Code Coverage | 🟢 | 2 pts | ✅ |
 
 **Entregables**:
 - ✅ Proyecto xUnit creado
@@ -351,7 +351,7 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-023: Proyecto tests creado
 - [x] US-024: Tests ProductService
 - [x] US-025: Tests ProductsController
-- [ ] US-026: Code coverage configurado
+- [x] US-026: Code coverage configurado
 
 ### Sprint 5: Terraform
 - [ ] US-027: Providers configurados
