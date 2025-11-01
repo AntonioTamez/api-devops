@@ -17,7 +17,7 @@ Implementar tests unitarios y de integración para garantizar la calidad del có
 **Para** verificar la lógica de negocio aisladamente
 
 ### Criterios de Aceptación
-- ✅ Proyecto xUnit creado en carpeta `tests/`
+- ✅ Proyecto xUnit creado en carpeta `tests/` dentro de la solucion
 - ✅ Referencias al proyecto principal configuradas
 - ✅ Librerías de mocking instaladas (Moq, FluentAssertions)
 - ✅ Estructura de carpetas espejo del proyecto principal
