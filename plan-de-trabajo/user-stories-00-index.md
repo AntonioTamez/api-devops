@@ -176,9 +176,9 @@ api-devops/
 
 | ID | Historia | Prioridad | Puntos | Estado |
 |---|---|---|---|---|
-| US-023 | Crear Proyecto Tests Unitarios | 🟡 | 2 pts | ⏳ |
-| US-024 | Tests ProductService | 🟡 | 5 pts | ⏳ |
-| US-025 | Tests ProductsController | 🟡 | 5 pts | ⏳ |
+| US-023 | Crear Proyecto Tests Unitarios | 🟡 | 2 pts | ✅ |
+| US-024 | Tests ProductService | 🟡 | 5 pts | ✅ |
+| US-025 | Tests ProductsController | 🟡 | 5 pts | ✅ |
 | US-026 | Configurar Code Coverage | 🟢 | 2 pts | ⏳ |
 
 **Entregables**:
@@ -348,9 +348,9 @@ Sprint 0 (Setup):   █████                  5 pts
 - [x] US-022: Documentación Docker
 
 ### Sprint 4: Testing
-- [ ] US-023: Proyecto tests creado
-- [ ] US-024: Tests ProductService
-- [ ] US-025: Tests ProductsController
+- [x] US-023: Proyecto tests creado
+- [x] US-024: Tests ProductService
+- [x] US-025: Tests ProductsController
 - [ ] US-026: Code coverage configurado
 
 ### Sprint 5: Terraform

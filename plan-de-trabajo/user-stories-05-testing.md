@@ -678,7 +678,7 @@ public class ProductsControllerTests
 |---|---|---|---|---|
 | US-023 | Crear Proyecto Tests Unitarios | 🟡 Alta | 2 pts | ✅ Completado |
 | US-024 | Tests ProductService | 🟡 Alta | 5 pts | ✅ Completado |
-| US-025 | Tests ProductsController | 🟡 Alta | 5 pts | ⏳ Pendiente |
+| US-025 | Tests ProductsController | 🟡 Alta | 5 pts | ✅ Completado |
 | US-026 | Configurar Code Coverage | 🟢 Media | 2 pts | ⏳ Pendiente |
 
 **Total Sprint 4**: 14 puntos (~7 horas)
