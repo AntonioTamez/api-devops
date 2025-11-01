@@ -111,9 +111,15 @@ Antes de comenzar, asegúrate de tener instalado:
   ```
 
 ### Opcional (IDEs)
-- Visual Studio 2022 (17.8 o superior)
+- Visual Studio 2022 (17.8 o superior) - Abrir `DevOpsApi.sln`
 - Visual Studio Code con extensión C#
 - JetBrains Rider
+
+### Herramientas de Testing
+- **ReportGenerator** (para reportes de coverage)
+  ```bash
+  dotnet tool install -g dotnet-reportgenerator-globaltool
+  ```
 
 ---
 
@@ -153,18 +159,23 @@ La API estará disponible en:
 ### 3. Ejecutar sin Docker (Alternativa)
 
 ```bash
-# Restaurar dependencias
-dotnet restore src/DevOpsApi.csproj
-
-# Aplicar migraciones
-dotnet ef database update --project src
-
-# Ejecutar API
+# Opción 1: Usando la solución (recomendado)
+dotnet restore
+dotnet build
 dotnet run --project src/DevOpsApi.csproj
+
+# Opción 2: Proyecto individual
+dotnet restore src/DevOpsApi.csproj
+dotnet run --project src/DevOpsApi.csproj
+
+# Aplicar migraciones (si es necesario)
+dotnet ef database update --project src
 
 # Abrir Swagger
 start http://localhost:5000/swagger
 ```
+
+**Nota**: El proyecto incluye un archivo de solución `DevOpsApi.sln` que contiene tanto el proyecto principal como el proyecto de tests.
 
 ### 4. Detener servicios
 
@@ -193,10 +204,17 @@ api-devops/
 │   └── DevOpsApi.csproj        # Proyecto .NET
 │
 ├── tests/                      # Tests
-│   └── DevOpsApi.UnitTests/    # Tests unitarios
-│       ├── Controllers/
-│       ├── Services/
-│       └── DevOpsApi.UnitTests.csproj
+│   ├── DevOpsApi.UnitTests/    # Tests unitarios (50 tests)
+│   │   ├── Controllers/        # Tests de controllers
+│   │   ├── Services/           # Tests de services
+│   │   ├── Helpers/            # Helpers para tests
+│   │   └── DevOpsApi.UnitTests.csproj
+│   └── README.md               # Documentación de tests
+│
+├── scripts/                    # Scripts de automatización
+│   ├── run-tests.ps1           # Ejecutar tests
+│   ├── coverage.ps1            # Tests con coverage
+│   └── README.md               # Documentación de scripts
 │
 ├── terraform/                  # Infraestructura como código
 │   ├── main.tf                 # Recursos de Azure
@@ -501,7 +519,24 @@ docker-compose up --build
 
 ## 🧪 Testing
 
-### Ejecutar Tests Unitarios
+### Scripts Automatizados (Recomendado)
+
+El proyecto incluye scripts PowerShell para facilitar la ejecución de tests:
+
+```powershell
+# Ejecutar tests unitarios
+.\scripts\run-tests.ps1
+
+# Ejecutar tests con coverage y generar reporte HTML
+.\scripts\coverage.ps1
+```
+
+El script `coverage.ps1` automáticamente:
+- ✅ Ejecuta todos los tests con recolección de coverage
+- ✅ Genera reporte HTML con ReportGenerator
+- ✅ Abre el reporte en el navegador
+
+### Ejecutar Tests Manualmente
 
 ```bash
 # Ejecutar todos los tests
@@ -512,7 +547,27 @@ dotnet test --verbosity normal
 
 # Filtrar tests específicos
 dotnet test --filter "FullyQualifiedName~ProductService"
+
+# Solo tests de Controllers
+dotnet test --filter "FullyQualifiedName~Controllers"
 ```
+
+### Tests Implementados
+
+El proyecto cuenta con **50 tests unitarios**:
+
+- **ProductServiceTests** (23 tests)
+  - Tests de consulta (GetAll, GetById, GetBySku, etc.)
+  - Tests de creación con validaciones
+  - Tests de actualización
+  - Tests de eliminación (soft y hard delete)
+  - Tests de gestión de stock
+
+- **ProductsControllerTests** (27 tests)
+  - Tests de endpoints con paginación
+  - Tests de códigos HTTP (200, 201, 204, 400, 404)
+  - Tests de validación de DTOs
+  - Tests de manejo de errores
 
 ### Code Coverage
 
@@ -520,7 +575,7 @@ dotnet test --filter "FullyQualifiedName~ProductService"
 # Generar reporte de cobertura
 dotnet test --collect:"XPlat Code Coverage"
 
-# Generar reporte HTML
+# Generar reporte HTML con ReportGenerator
 reportgenerator \
   -reports:"**/coverage.cobertura.xml" \
   -targetdir:"coverage-report" \
@@ -530,18 +585,31 @@ reportgenerator \
 start coverage-report/index.html
 ```
 
+**Objetivos de Coverage:**
+- ✅ Mínimo aceptable: **80%**
+- 🎯 Objetivo: **90%**
+- 🌟 Excelente: **95%+**
+
+### Tecnologías de Testing
+
+- **xUnit** - Framework de testing
+- **Moq** - Mocking de dependencias
+- **FluentAssertions** - Assertions legibles
+- **Coverlet** - Recolección de coverage
+- **ReportGenerator** - Reportes HTML de coverage
+- **EF Core InMemory** - Base de datos en memoria para tests
+
 ### Agregar Nuevos Tests
 
 ```bash
-# Crear proyecto de tests (si no existe)
-dotnet new xunit -n DevOpsApi.UnitTests -o tests/DevOpsApi.UnitTests
+# Crear nueva clase de tests en la carpeta apropiada
+# tests/DevOpsApi.UnitTests/Services/NuevoServiceTests.cs
+# tests/DevOpsApi.UnitTests/Controllers/NuevoControllerTests.cs
 
-# Agregar referencia al proyecto principal
-dotnet add tests/DevOpsApi.UnitTests reference src/DevOpsApi.csproj
-
-# Instalar paquetes de testing
-dotnet add tests/DevOpsApi.UnitTests package Moq
-dotnet add tests/DevOpsApi.UnitTests package FluentAssertions
+# Los tests deben seguir el patrón AAA:
+# - Arrange: Preparar datos y mocks
+# - Act: Ejecutar método a probar
+# - Assert: Verificar resultados
 ```
 
 ---
@@ -879,8 +947,9 @@ Este proyecto está bajo la licencia MIT. Ver archivo [LICENSE](LICENSE) para m�
 
 - [Plan de Trabajo](plan-de-trabajo/plan.md)
 - [Historias de Usuario](plan-de-trabajo/user-stories-00-index.md)
+- [Documentación de Testing](tests/README.md)
+- [Scripts de Automatización](scripts/README.md)
 - [Documentación de Terraform](terraform/README.md)
-- [Guía de Testing](tests/README.md)
 - [Workflows de CI/CD](.github/workflows/README.md)
 
 ---
