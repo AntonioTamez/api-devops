@@ -459,6 +459,8 @@ coverage.xml
 *.coverage
 *.coveragexml
 TestResults/
+coverage-report/
+**/TestResults/
 
 ####################
 # Build artifacts
