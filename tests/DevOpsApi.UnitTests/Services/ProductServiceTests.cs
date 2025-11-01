@@ -10,14 +10,14 @@ namespace DevOpsApi.UnitTests.Services;
 
 public class ProductServiceTests
 {
-    private readonly Mock&lt;IProductRepository&gt; _repositoryMock;
-    private readonly Mock&lt;ILogger&lt;ProductService&gt;&gt; _loggerMock;
+    private readonly Mock<IProductRepository> _repositoryMock;
+    private readonly Mock<ILogger<ProductService>> _loggerMock;
     private readonly ProductService _service;
 
     public ProductServiceTests()
     {
-        _repositoryMock = new Mock&lt;IProductRepository&gt;();
-        _loggerMock = new Mock&lt;ILogger&lt;ProductService&gt;&gt;();
+        _repositoryMock = new Mock<IProductRepository>();
+        _loggerMock = new Mock<ILogger<ProductService>>();
         _service = new ProductService(_repositoryMock.Object, _loggerMock.Object);
     }
 
@@ -25,12 +25,12 @@ public class ProductServiceTests
     public async Task GetAllProductsAsync_ShouldReturnAllProducts()
     {
         // Arrange
-        var products = new List&lt;Product&gt;
+        var products = new List<Product>
         {
             new Product { Id = 1, Name = "Product 1", Sku = "SKU001", Price = 10M, Stock = 100, IsActive = true },
             new Product { Id = 2, Name = "Product 2", Sku = "SKU002", Price = 20M, Stock = 50, IsActive = true }
         };
-        _repositoryMock.Setup(r =&gt; r.GetAllAsync()).ReturnsAsync(products);
+        _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(products);
 
         // Act
         var result = await _service.GetAllProductsAsync();
@@ -38,7 +38,7 @@ public class ProductServiceTests
         // Assert
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
-        _repositoryMock.Verify(r =&gt; r.GetAllAsync(), Times.Once);
+        _repositoryMock.Verify(r => r.GetAllAsync(), Times.Once);
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Test Product", Sku = "SKU001", Price = 10M, Stock = 100 };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
 
         // Act
         var result = await _service.GetProductByIdAsync(1);
@@ -61,7 +61,7 @@ public class ProductServiceTests
     public async Task GetProductByIdAsync_WithInvalidId_ShouldReturnNull()
     {
         // Arrange
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(999)).ReturnsAsync((Product?)null);
+        _repositoryMock.Setup(r => r.GetByIdAsync(999)).ReturnsAsync((Product?)null);
 
         // Act
         var result = await _service.GetProductByIdAsync(999);
@@ -75,7 +75,7 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Test Product", Sku = "SKU001", Price = 10M, Stock = 100 };
-        _repositoryMock.Setup(r =&gt; r.GetBySkuAsync("SKU001")).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetBySkuAsync("SKU001")).ReturnsAsync(product);
 
         // Act
         var result = await _service.GetProductBySkuAsync("SKU001");
@@ -89,38 +89,38 @@ public class ProductServiceTests
     public async Task GetProductsByCategoryAsync_ShouldReturnProductsInCategory()
     {
         // Arrange
-        var products = new List&lt;Product&gt;
+        var products = new List<Product>
         {
             new Product { Id = 1, Name = "Product 1", Sku = "SKU001", Category = "Electronics", Price = 10M, Stock = 100 },
             new Product { Id = 2, Name = "Product 2", Sku = "SKU002", Category = "Electronics", Price = 20M, Stock = 50 }
         };
-        _repositoryMock.Setup(r =&gt; r.GetByCategoryAsync("Electronics")).ReturnsAsync(products);
+        _repositoryMock.Setup(r => r.GetByCategoryAsync("Electronics")).ReturnsAsync(products);
 
         // Act
         var result = await _service.GetProductsByCategoryAsync("Electronics");
 
         // Assert
         result.Should().HaveCount(2);
-        result.Should().OnlyContain(p =&gt; p.Category == "Electronics");
+        result.Should().OnlyContain(p => p.Category == "Electronics");
     }
 
     [Fact]
     public async Task GetActiveProductsAsync_ShouldReturnOnlyActiveProducts()
     {
         // Arrange
-        var products = new List&lt;Product&gt;
+        var products = new List<Product>
         {
             new Product { Id = 1, Name = "Product 1", Sku = "SKU001", Price = 10M, Stock = 100, IsActive = true },
             new Product { Id = 2, Name = "Product 2", Sku = "SKU002", Price = 20M, Stock = 50, IsActive = true }
         };
-        _repositoryMock.Setup(r =&gt; r.GetActiveProductsAsync()).ReturnsAsync(products);
+        _repositoryMock.Setup(r => r.GetActiveProductsAsync()).ReturnsAsync(products);
 
         // Act
         var result = await _service.GetActiveProductsAsync();
 
         // Assert
         result.Should().HaveCount(2);
-        result.Should().OnlyContain(p =&gt; p.IsActive);
+        result.Should().OnlyContain(p => p.IsActive);
     }
 
     [Fact]
@@ -137,9 +137,9 @@ public class ProductServiceTests
             Category = "Test"
         };
 
-        _repositoryMock.Setup(r =&gt; r.ExistsBySkuAsync(It.IsAny&lt;string&gt;())).ReturnsAsync(false);
-        _repositoryMock.Setup(r =&gt; r.CreateAsync(It.IsAny&lt;Product&gt;())).ReturnsAsync(
-            (Product p) =&gt; { p.Id = 1; return p; });
+        _repositoryMock.Setup(r => r.ExistsBySkuAsync(It.IsAny<string>(), null)).ReturnsAsync(false);
+        _repositoryMock.Setup(r => r.CreateAsync(It.IsAny<Product>())).ReturnsAsync(
+            (Product p) => { p.Id = 1; return p; });
 
         // Act
         var result = await _service.CreateProductAsync(newProduct);
@@ -156,10 +156,10 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Name = "Product", Sku = "SKU001", Price = 10M, Stock = 10 };
-        _repositoryMock.Setup(r =&gt; r.ExistsBySkuAsync("SKU001")).ReturnsAsync(true);
+        _repositoryMock.Setup(r => r.ExistsBySkuAsync("SKU001", null)).ReturnsAsync(true);
 
-        // Act &amp; Assert
-        await Assert.ThrowsAsync&lt;InvalidOperationException&gt;(() =&gt; _service.CreateProductAsync(product));
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _service.CreateProductAsync(product));
     }
 
     [Fact]
@@ -167,10 +167,10 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Name = "Product", Sku = "SKU001", Price = 0M, Stock = 10 };
-        _repositoryMock.Setup(r =&gt; r.ExistsBySkuAsync(It.IsAny&lt;string&gt;())).ReturnsAsync(false);
+        _repositoryMock.Setup(r => r.ExistsBySkuAsync(It.IsAny<string>(), null)).ReturnsAsync(false);
 
-        // Act &amp; Assert
-        await Assert.ThrowsAsync&lt;ArgumentException&gt;(() =&gt; _service.CreateProductAsync(product));
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentException>(() => _service.CreateProductAsync(product));
     }
 
     [Fact]
@@ -178,10 +178,10 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Name = "Product", Sku = "SKU001", Price = 10M, Stock = -5 };
-        _repositoryMock.Setup(r =&gt; r.ExistsBySkuAsync(It.IsAny&lt;string&gt;())).ReturnsAsync(false);
+        _repositoryMock.Setup(r => r.ExistsBySkuAsync(It.IsAny<string>(), null)).ReturnsAsync(false);
 
-        // Act &amp; Assert
-        await Assert.ThrowsAsync&lt;ArgumentException&gt;(() =&gt; _service.CreateProductAsync(product));
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentException>(() => _service.CreateProductAsync(product));
     }
 
     [Fact]
@@ -191,10 +191,10 @@ public class ProductServiceTests
         var existingProduct = new Product { Id = 1, Name = "Old Name", Sku = "SKU001", Price = 10M, Stock = 100 };
         var updateProduct = new Product { Name = "Updated Name", Sku = "SKU001", Price = 25.99M, Stock = 75 };
 
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(existingProduct);
-        _repositoryMock.Setup(r =&gt; r.ExistsBySkuAsync("SKU001", 1)).ReturnsAsync(false);
-        _repositoryMock.Setup(r =&gt; r.UpdateAsync(It.IsAny&lt;Product&gt;())).ReturnsAsync(
-            (Product p) =&gt; p);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(existingProduct);
+        _repositoryMock.Setup(r => r.ExistsBySkuAsync("SKU001", 1)).ReturnsAsync(false);
+        _repositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(
+            (Product p) => p);
 
         // Act
         var result = await _service.UpdateProductAsync(1, updateProduct);
@@ -210,10 +210,10 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Name = "Product", Sku = "SKU001", Price = 10M, Stock = 10 };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(999)).ReturnsAsync((Product?)null);
+        _repositoryMock.Setup(r => r.GetByIdAsync(999)).ReturnsAsync((Product?)null);
 
-        // Act &amp; Assert
-        await Assert.ThrowsAsync&lt;KeyNotFoundException&gt;(() =&gt; _service.UpdateProductAsync(999, product));
+        // Act & Assert
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => _service.UpdateProductAsync(999, product));
     }
 
     [Fact]
@@ -221,8 +221,8 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Product", Sku = "SKU001", Price = 10M, Stock = 10, IsActive = true };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(product);
-        _repositoryMock.Setup(r =&gt; r.UpdateAsync(It.IsAny&lt;Product&gt;())).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(product);
 
         // Act
         var result = await _service.DeleteProductAsync(1);
@@ -236,7 +236,7 @@ public class ProductServiceTests
     public async Task DeleteProductAsync_WithInvalidId_ShouldReturnFalse()
     {
         // Arrange
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(999)).ReturnsAsync((Product?)null);
+        _repositoryMock.Setup(r => r.GetByIdAsync(999)).ReturnsAsync((Product?)null);
 
         // Act
         var result = await _service.DeleteProductAsync(999);
@@ -249,7 +249,7 @@ public class ProductServiceTests
     public async Task HardDeleteProductAsync_WithValidId_ShouldDeletePermanently()
     {
         // Arrange
-        _repositoryMock.Setup(r =&gt; r.DeleteAsync(1)).ReturnsAsync(true);
+        _repositoryMock.Setup(r => r.DeleteAsync(1)).ReturnsAsync(true);
 
         // Act
         var result = await _service.HardDeleteProductAsync(1);
@@ -263,7 +263,7 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Product", Sku = "SKU001", Price = 10M, Stock = 100 };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
 
         // Act
         var result = await _service.IsStockAvailableAsync(1, 50);
@@ -277,7 +277,7 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Product", Sku = "SKU001", Price = 10M, Stock = 10 };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
 
         // Act
         var result = await _service.IsStockAvailableAsync(1, 50);
@@ -291,8 +291,8 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Product", Sku = "SKU001", Price = 10M, Stock = 100 };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(product);
-        _repositoryMock.Setup(r =&gt; r.UpdateAsync(It.IsAny&lt;Product&gt;())).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(product);
 
         // Act
         var result = await _service.ReduceStockAsync(1, 30);
@@ -307,10 +307,10 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Product", Sku = "SKU001", Price = 10M, Stock = 10 };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
 
-        // Act &amp; Assert
-        await Assert.ThrowsAsync&lt;InvalidOperationException&gt;(() =&gt; _service.ReduceStockAsync(1, 50));
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _service.ReduceStockAsync(1, 50));
     }
 
     [Fact]
@@ -318,8 +318,8 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Product", Sku = "SKU001", Price = 10M, Stock = 100 };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(product);
-        _repositoryMock.Setup(r =&gt; r.UpdateAsync(It.IsAny&lt;Product&gt;())).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Product>())).ReturnsAsync(product);
 
         // Act
         var result = await _service.IncreaseStockAsync(1, 50);
@@ -334,9 +334,9 @@ public class ProductServiceTests
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Product", Sku = "SKU001", Price = 10M, Stock = 100 };
-        _repositoryMock.Setup(r =&gt; r.GetByIdAsync(1)).ReturnsAsync(product);
+        _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(product);
 
-        // Act &amp; Assert
-        await Assert.ThrowsAsync&lt;ArgumentException&gt;(() =&gt; _service.IncreaseStockAsync(1, 0));
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentException>(() => _service.IncreaseStockAsync(1, 0));
     }
 }
