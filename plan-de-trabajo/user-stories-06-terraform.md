@@ -381,6 +381,134 @@ resource "azurerm_application_insights" "main" {
 
 ---
 
+## US-029A: Crear Azure Key Vault para Gestión de Secretos
+
+**Como** DevOps engineer  
+**Quiero** Azure Key Vault para almacenar secretos  
+**Para** gestionar credenciales de forma segura sin exponerlas en código
+
+### Criterios de Aceptación
+- ✅ Key Vault creado con acceso controlado
+- ✅ Access policies configuradas para Terraform y Container Apps
+- ✅ Soft delete y purge protection habilitados
+- ✅ Secretos iniciales creados (placeholders)
+- ✅ Integration con Managed Identity
+
+### main.tf (Parte 1B - Key Vault)
+
+```hcl
+# Key Vault
+resource "azurerm_key_vault" "main" {
+  name                       = "kv-${replace(local.resource_prefix, "-", "")}"
+  resource_group_name        = azurerm_resource_group.main.name
+  location                   = azurerm_resource_group.main.location
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  sku_name                   = "standard"
+  soft_delete_retention_days = 7
+  purge_protection_enabled   = var.environment == "prod" ? true : false
+
+  enabled_for_deployment          = true
+  enabled_for_template_deployment = true
+  enable_rbac_authorization       = false
+
+  # Network ACLs - Restringir acceso en producción
+  network_acls {
+    bypass                     = "AzureServices"
+    default_action             = var.environment == "prod" ? "Deny" : "Allow"
+    ip_rules                   = var.key_vault_allowed_ips
+    virtual_network_subnet_ids = []
+  }
+
+  tags = local.common_tags
+}
+
+# Access Policy para Terraform Service Principal (quien ejecuta Terraform)
+resource "azurerm_key_vault_access_policy" "terraform" {
+  key_vault_id = azurerm_key_vault.main.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azurerm_client_config.current.object_id
+
+  secret_permissions = [
+    "Get",
+    "List",
+    "Set",
+    "Delete",
+    "Recover",
+    "Backup",
+    "Restore",
+    "Purge"
+  ]
+
+  certificate_permissions = [
+    "Get",
+    "List",
+    "Create",
+    "Delete"
+  ]
+}
+
+# User Assigned Managed Identity para Container App
+resource "azurerm_user_assigned_identity" "container_app" {
+  name                = "id-${local.resource_prefix}-ca"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  tags                = local.common_tags
+}
+
+# Access Policy para Container App Managed Identity
+resource "azurerm_key_vault_access_policy" "container_app" {
+  key_vault_id = azurerm_key_vault.main.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_user_assigned_identity.container_app.principal_id
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
+}
+
+# Data source para obtener client config
+data "azurerm_client_config" "current" {}
+```
+
+### Actualizar variables.tf - Agregar estas variables
+
+```hcl
+# Key Vault
+variable "key_vault_allowed_ips" {
+  description = "List of allowed IPs for Key Vault access"
+  type        = list(string)
+  default     = []
+}
+```
+
+### Tareas Técnicas
+1. Agregar recursos de Key Vault a `main.tf`
+2. Agregar variable `key_vault_allowed_ips` a `variables.tf`
+3. Agregar data source `azurerm_client_config` si no existe
+4. Plan y apply:
+   ```bash
+   terraform plan -var-file="environments/dev.tfvars"
+   terraform apply -var-file="environments/dev.tfvars"
+   ```
+5. Verificar en Azure Portal que Key Vault fue creado
+6. Commit: "feat: Add Azure Key Vault for secrets management"
+
+### Dependencias
+- ✅ US-029 (Resource Group creado)
+
+### Estimación
+**Esfuerzo**: 3 puntos (1 hora)  
+**Prioridad**: 🔴 Crítica
+
+### Definición de Hecho (DoD)
+- Key Vault creado
+- Access policies configuradas
+- Managed Identity creada
+- Acceso verificado desde Portal
+
+---
+
 ## US-030: Crear SQL Server y Base de Datos
 
 **Como** DevOps engineer  
