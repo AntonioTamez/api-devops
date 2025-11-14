@@ -64,9 +64,30 @@ provider "azurerm" {
 ```
 
 ### Tareas Técnicas
+
+⚠️ **ADVERTENCIA DE SEGURIDAD**: Antes de comenzar, leer [SECURITY.md](./SECURITY.md)
+
 1. Crear carpeta `terraform/` en raíz
 2. Crear `terraform/providers.tf`
-3. Crear Service Principal en Azure:
+3. Configurar backend storage con seguridad:
+   ```bash
+   # Crear storage account con encriptación y acceso restringido
+   az storage account create \
+     --name tfstatedevops \
+     --resource-group terraform-state-rg \
+     --location eastus \
+     --sku Standard_LRS \
+     --https-only true \
+     --allow-blob-public-access false \
+     --min-tls-version TLS1_2
+   
+   # Habilitar soft delete (retención 30 días)
+   az storage blob service-properties delete-policy update \
+     --days-retained 30 \
+     --account-name tfstatedevops \
+     --enable true
+   ```
+4. Crear Service Principal con PERMISOS MÍNIMOS (NO usar Contributor):
    ```bash
    az login
    az account set --subscription "YOUR_SUBSCRIPTION_ID"
@@ -263,12 +284,27 @@ tags = {
 2. Crear carpeta `terraform/environments/`
 3. Crear `terraform/environments/dev.tfvars`
 4. Crear `terraform/environments/prod.tfvars`
-5. Agregar `*.tfvars` a `.gitignore` (excepto ejemplos)
-6. Validar:
+5. ⚠️ IMPORTANTE: Agregar `*.tfvars` a `.gitignore` (NUNCA commitear valores reales)
+   ```bash
+   # En .gitignore:
+   *.tfvars
+   !*.tfvars.example
+   .terraform/
+   *.tfstate
+   *.tfstate.backup
+   ```
+6. Crear archivos .tfvars.example SIN valores sensibles:
+   ```bash
+   cp environments/dev.tfvars environments/dev.tfvars.example
+   # Editar .tfvars.example y remover valores sensibles
+   ```
+7. Validar:
    ```bash
    terraform validate
    ```
-7. Commit: "feat: Add Terraform variables for multi-environment support"
+8. Commit: "feat: Add Terraform variables for multi-environment support"
+
+📚 **LEER ANTES DE CONTINUAR**: Ver [SECURITY.md](./SECURITY.md) para mejores prácticas
 
 ### Dependencias
 - ✅ US-027 (Providers configurados)
@@ -320,14 +356,27 @@ resource "azurerm_resource_group" "main" {
 }
 
 # Container Registry
+# ⚠️ SEGURIDAD: admin_enabled = false es más seguro (usar Managed Identity)
 resource "azurerm_container_registry" "acr" {
   name                = replace("acr${local.resource_prefix}", "-", "")
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   sku                 = var.acr_sku
-  admin_enabled       = true
+  
+  # ✅ MEJOR PRÁCTICA: Usar Managed Identity en lugar de admin credentials
+  admin_enabled       = false  # Cambiar a false en producción
+  
+  # Para desarrollo, si necesitas admin temporalmente:
+  # admin_enabled = var.environment == "dev" ? true : false
 
   tags = local.common_tags
+}
+
+# ✅ Dar permisos al Container App Managed Identity para pull de ACR
+resource "azurerm_role_assignment" "acr_pull" {
+  scope                = azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_user_assigned_identity.container_app.principal_id
 }
 
 # Log Analytics Workspace (para Application Insights y Container Apps)
@@ -495,6 +544,7 @@ variable "key_vault_allowed_ips" {
 6. Commit: "feat: Add Azure Key Vault for secrets management"
 
 ### Dependencias
+- US-029 (Resource Group creado)
 - ✅ US-029 (Resource Group creado)
 
 ### Estimación
@@ -564,13 +614,24 @@ resource "azurerm_mssql_firewall_rule" "allow_azure_services" {
   end_ip_address   = "0.0.0.0"
 }
 
-# Firewall Rule - Allow specific IP (opcional para desarrollo)
-resource "azurerm_mssql_firewall_rule" "allow_dev_ip" {
-  count            = var.environment == "dev" ? 1 : 0
-  name             = "AllowDevIP"
+# Firewall Rules - IPs específicas permitidas (SEGURIDAD: NUNCA usar 0.0.0.0/255.255.255.255)
+# ⚠️ IMPORTANTE: Configurar IPs específicas en variables, NO permitir todo el internet
+variable "allowed_sql_ips" {
+  description = "Lista de IPs permitidas para acceso a SQL Server"
+  type = list(object({
+    name = string
+    ip   = string
+  }))
+  default = []
+}
+
+resource "azurerm_mssql_firewall_rule" "allowed_ips" {
+  for_each = { for ip in var.allowed_sql_ips : ip.name => ip }
+  
+  name             = each.value.name
   server_id        = azurerm_mssql_server.main.id
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "255.255.255.255"
+  start_ip_address = each.value.ip
+  end_ip_address   = each.value.ip
 }
 
 # Data source para obtener client config
@@ -582,8 +643,14 @@ data "azurerm_client_config" "current" {}
 2. Agregar data source `azurerm_client_config`
 3. Plan y apply:
    ```bash
-   terraform plan -var-file="environments/dev.tfvars" -var="sql_admin_password=YourStrongP@ssw0rd!"
-   terraform apply -var-file="environments/dev.tfvars" -var="sql_admin_password=YourStrongP@ssw0rd!"
+   # ⚠️ SEGURIDAD: NUNCA poner passwords en CLI args (quedan en logs)
+   # ✅ USAR variable de entorno en su lugar:
+   export TF_VAR_sql_admin_password="YourStrongP@ssw0rd!"
+   terraform plan -var-file="environments/dev.tfvars" -out=tfplan
+   terraform apply tfplan
+   
+   # O mejor aún, leer desde Azure Key Vault:
+   # export TF_VAR_sql_admin_password=$(az keyvault secret show --vault-name kv-api-devops --name sql-admin-password --query value -o tsv)
    ```
 4. Verificar en Azure Portal
 5. Commit: "feat: Add Azure SQL Server and Database"
@@ -682,20 +749,24 @@ resource "azurerm_container_app" "api" {
     }
   }
 
+  # ⚠️ SEGURIDAD: Secrets en Terraform state
+  # MEJOR PRÁCTICA: Usar Key Vault references en lugar de secrets directos
+  # Los secrets se almacenan en texto plano en el state file
   secret {
     name  = "sql-connection-string"
     value = "Server=tcp:${azurerm_mssql_server.main.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.main.name};User ID=${var.sql_admin_username};Password=${var.sql_admin_password};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 
-  registry {
-    server               = azurerm_container_registry.acr.login_server
-    username             = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+  # ✅ RECOMENDADO: Usar Managed Identity en lugar de admin credentials
+  # Ver US-029A para configuración de Managed Identity
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.container_app.id]
   }
-
-  secret {
-    name  = "acr-password"
-    value = azurerm_container_registry.acr.admin_password
+  
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.container_app.id
   }
 
   ingress {

@@ -77,14 +77,36 @@ Integrar Entity Framework Core con SQL Server, crear el modelo de datos inicial 
            }));
    ```
 
-5. Agregar connection string en `appsettings.json`:
+5. Configurar connection string de forma segura:
+   
+   ⚠️ **SEGURIDAD**: NUNCA commitear passwords en appsettings.json
+   
+   **Opción 1 - User Secrets (Recomendado para desarrollo)**:
+   ```bash
+   cd src
+   dotnet user-secrets init
+   dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=localhost,1433;Database=DevOpsDb;User Id=sa;Password=TuPassword123!;TrustServerCertificate=True;MultipleActiveResultSets=true"
+   ```
+   
+   **Opción 2 - Variables de entorno**:
+   ```bash
+   # Windows PowerShell
+   $env:ConnectionStrings__DefaultConnection="Server=localhost,1433;Database=DevOpsDb;User Id=sa;Password=TuPassword123!;TrustServerCertificate=True"
+   
+   # Linux/Mac
+   export ConnectionStrings__DefaultConnection="Server=localhost,1433;Database=DevOpsDb;User Id=sa;Password=TuPassword123!;TrustServerCertificate=True"
+   ```
+   
+   **En appsettings.json** (sin password):
    ```json
    {
      "ConnectionStrings": {
-       "DefaultConnection": "Server=localhost,1433;Database=DevOpsDb;User Id=sa;Password=YourPassword123!;TrustServerCertificate=True;MultipleActiveResultSets=true"
+       "DefaultConnection": ""  // Se configura vía user-secrets o variables de entorno
      }
    }
    ```
+   
+   📚 Ver [SECURITY.md](./SECURITY.md) para más detalles
 
 6. Commit: "feat: Configure Entity Framework Core with SQL Server"
 

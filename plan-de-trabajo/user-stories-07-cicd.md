@@ -38,7 +38,20 @@ En GitHub: **Settings → Secrets and variables → Actions → New repository s
    ```
    Obtener con:
    ```bash
-   az ad sp create-for-rbac --name "sp-api-devops-ci" --role Contributor --scopes /subscriptions/{subscription-id} --sdk-auth
+   # ⚠️ SEGURIDAD: NO usar Contributor (demasiado permisivo)
+   # ✅ RECOMENDADO: Crear rol custom con permisos mínimos
+   
+   # 1. Crear definición de rol custom (guardar como terraform-deployer-role.json)
+   # Ver SECURITY.md para detalles del rol
+   
+   # 2. Crear Service Principal con rol limitado
+   az ad sp create-for-rbac \
+     --name "sp-api-devops-ci" \
+     --role "Terraform Deployer" \
+     --scopes /subscriptions/{subscription-id} \
+     --sdk-auth
+   
+   # IMPORTANTE: Guardar el output de forma segura (NO commitear)
    ```
 
 2. **AZURE_SUBSCRIPTION_ID**
@@ -63,11 +76,15 @@ En GitHub: **Settings → Secrets and variables → Actions → New repository s
    - tfstatedevops
 
 ### Tareas Técnicas
-1. Crear Service Principal si no existe
-2. Configurar cada secret en GitHub
-3. Crear documento `docs/SECRETS.md` con instrucciones (sin valores reales)
-4. Verificar que secrets están disponibles en Actions
-5. Commit: "docs: Add instructions for GitHub Secrets configuration"
+1. Crear Service Principal con permisos mínimos (ver SECURITY.md)
+2. Configurar cada secret en GitHub (Settings → Secrets and variables → Actions)
+3. ⚠️ NUNCA commitear valores reales de secrets
+4. Crear documento `docs/SECRETS.md` con instrucciones (sin valores reales)
+5. Verificar que secrets están disponibles en Actions
+6. Rotar secrets regularmente (cada 90 días)
+7. Commit: "docs: Add instructions for GitHub Secrets configuration"
+
+📚 **LEER**: [SECURITY.md](./SECURITY.md) antes de configurar secrets
 
 ### Dependencias
 - US-026 (Service Principal creado para Terraform)
@@ -323,10 +340,12 @@ jobs:
 
     - name: Terraform Plan
       working-directory: ./terraform
+      # ⚠️ SEGURIDAD: Usar env vars para secrets, NO -var en CLI
+      env:
+        TF_VAR_sql_admin_password: ${{ secrets.SQL_ADMIN_PASSWORD }}
       run: |
         terraform plan \
           -var-file="environments/${{ github.event.inputs.environment || 'prod' }}.tfvars" \
-          -var="sql_admin_password=${{ secrets.SQL_ADMIN_PASSWORD }}" \
           -out=tfplan
 
     - name: Terraform Apply
@@ -563,15 +582,17 @@ El proyecto utiliza GitHub Actions para automatizar el build, test y deployment.
 
 ### Configuración de Secrets
 
-Ver [SECRETS.md](./docs/SECRETS.md) para instrucciones detalladas.
+⚠️ **IMPORTANTE**: Ver [SECURITY.md](./SECURITY.md) para mejores prácticas de gestión de secrets.
 
 Secrets requeridos:
-- `AZURE_CREDENTIALS`
-- `AZURE_SUBSCRIPTION_ID`
-- `ACR_LOGIN_SERVER`
-- `ACR_USERNAME`
-- `ACR_PASSWORD`
-- `SQL_ADMIN_PASSWORD`
+- `AZURE_CREDENTIALS` - Service Principal con permisos mínimos
+- `AZURE_SUBSCRIPTION_ID` - ID de suscripción
+- `ACR_LOGIN_SERVER` - URL del Container Registry
+- `ACR_USERNAME` - Solo si admin_enabled=true (no recomendado)
+- `ACR_PASSWORD` - Solo si admin_enabled=true (no recomendado)
+- `SQL_ADMIN_PASSWORD` - Password de SQL Server
+- `TERRAFORM_BACKEND_RG` - Resource group del state
+- `TERRAFORM_BACKEND_STORAGE` - Storage account del state
 
 ### Manual Deployment
 

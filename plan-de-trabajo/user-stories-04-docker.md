@@ -228,6 +228,8 @@ LICENSE
 
 ### docker-compose.yml
 
+⚠️ **IMPORTANTE**: Este archivo NO debe contener passwords. Ver [SECURITY.md](./SECURITY.md)
+
 ```yaml
 version: '3.8'
 
@@ -238,7 +240,8 @@ services:
     container_name: devops-sqlserver
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourPassword123!
+      # ✅ SEGURIDAD: Leer password desde .env (NO commitear .env)
+      - SA_PASSWORD=${SQL_SA_PASSWORD}
       - MSSQL_PID=Developer
     ports:
       - "1433:1433"
@@ -247,7 +250,7 @@ services:
     networks:
       - devops-network
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourPassword123! -Q 'SELECT 1' || exit 1"]
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $${SA_PASSWORD} -Q 'SELECT 1' || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -262,7 +265,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=DevOpsDb;User Id=sa;Password=YourPassword123!;TrustServerCertificate=True;MultipleActiveResultSets=true
+      # ✅ SEGURIDAD: Connection string usando variable de entorno
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=DevOpsDb;User Id=sa;Password=$${SQL_SA_PASSWORD};TrustServerCertificate=True;MultipleActiveResultSets=true
     ports:
       - "5000:8080"
     depends_on:
@@ -289,9 +293,31 @@ networks:
 ```
 
 ### Tareas Técnicas
-1. Crear `docker-compose.yml` en la raíz
-2. Ajustar paths del build context
-3. Levantar servicios:
+
+⚠️ **SEGURIDAD**: Leer [SECURITY.md](./SECURITY.md) antes de continuar
+
+1. Crear archivo `.env` con variables sensibles (NO commitear):
+   ```bash
+   # Crear .env en la raíz del proyecto
+   cat > .env << EOF
+   SQL_SA_PASSWORD=TuPasswordSeguro123!
+   EOF
+   
+   # Agregar .env a .gitignore
+   echo ".env" >> .gitignore
+   ```
+
+2. Crear `.env.example` (SÍ commitear como plantilla):
+   ```bash
+   cat > .env.example << EOF
+   # SQL Server SA Password
+   SQL_SA_PASSWORD=YOUR_STRONG_PASSWORD_HERE
+   EOF
+   ```
+
+3. Crear `docker-compose.yml` en la raíz
+4. Ajustar paths del build context
+5. Levantar servicios:
    ```bash
    docker-compose up -d
    ```
