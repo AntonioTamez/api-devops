@@ -88,27 +88,72 @@ provider "azurerm" {
      --enable true
    ```
 4. Crear Service Principal con PERMISOS MÍNIMOS (NO usar Contributor):
+   
+   ⚠️ **CRÍTICO**: El rol `Contributor` tiene demasiados permisos. Crear rol custom.
+   
    ```bash
+   # Paso 1: Crear definición de rol custom
+   cat > terraform-deployer-role.json << 'EOF'
+   {
+     "Name": "Terraform Deployer",
+     "Description": "Minimal permissions for Terraform infrastructure deployment",
+     "Actions": [
+       "Microsoft.Resources/deployments/*",
+       "Microsoft.Resources/subscriptions/resourceGroups/*",
+       "Microsoft.ContainerRegistry/registries/*",
+       "Microsoft.App/*",
+       "Microsoft.Sql/servers/*",
+       "Microsoft.Sql/managedInstances/databases/*",
+       "Microsoft.Insights/*",
+       "Microsoft.OperationalInsights/workspaces/*",
+       "Microsoft.KeyVault/vaults/*",
+       "Microsoft.ManagedIdentity/userAssignedIdentities/*",
+       "Microsoft.Authorization/roleAssignments/write",
+       "Microsoft.Authorization/roleAssignments/read",
+       "Microsoft.Storage/storageAccounts/read",
+       "Microsoft.Storage/storageAccounts/listkeys/action"
+     ],
+     "NotActions": [],
+     "DataActions": [],
+     "NotDataActions": [],
+     "AssignableScopes": [
+       "/subscriptions/{SUBSCRIPTION_ID}"
+     ]
+   }
+   EOF
+   
+   # Paso 2: Crear el rol (reemplazar {SUBSCRIPTION_ID})
    az login
-   az account set --subscription "YOUR_SUBSCRIPTION_ID"
-   az ad sp create-for-rbac --name "sp-api-devops" --role Contributor --scopes /subscriptions/{subscription-id}
+   export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+   sed -i "s/{SUBSCRIPTION_ID}/$SUBSCRIPTION_ID/g" terraform-deployer-role.json
+   az role definition create --role-definition terraform-deployer-role.json
+   
+   # Paso 3: Crear Service Principal con rol custom
+   az ad sp create-for-rbac \
+     --name "sp-api-devops-terraform" \
+     --role "Terraform Deployer" \
+     --scopes /subscriptions/$SUBSCRIPTION_ID
+   
+   # Guardar output de forma segura (clientId, clientSecret, tenantId)
+   # ⚠️ NO commitear estos valores
    ```
-   Guardar output (clientId, clientSecret, tenantId)
+   
+   Ver [SECURITY.md](./SECURITY.md) sección "Service Principal con Permisos Mínimos"
 
-4. Crear Resource Group y Storage Account para Terraform state:
+5. Crear Resource Group y Storage Account para Terraform state:
    ```bash
    az group create --name terraform-state-rg --location eastus
    az storage account create --name tfstatedevops --resource-group terraform-state-rg --location eastus --sku Standard_LRS
    az storage container create --name tfstate --account-name tfstatedevops
    ```
 
-5. Inicializar Terraform:
+6. Inicializar Terraform:
    ```bash
    cd terraform
    terraform init
    ```
 
-6. Commit: "feat: Configure Terraform with Azure provider"
+7. Commit: "feat: Configure Terraform with Azure provider"
 
 ### Dependencias
 - Ninguna (primer paso de infraestructura)
@@ -537,8 +582,10 @@ variable "key_vault_allowed_ips" {
 3. Agregar data source `azurerm_client_config` si no existe
 4. Plan y apply:
    ```bash
-   terraform plan -var-file="environments/dev.tfvars"
-   terraform apply -var-file="environments/dev.tfvars"
+   # ⚠️ SEGURIDAD: Configurar password como variable de entorno
+   export TF_VAR_sql_admin_password="YourStrongP@ssw0rd!"
+   terraform plan -var-file="environments/dev.tfvars" -out=tfplan
+   terraform apply tfplan
    ```
 5. Verificar en Azure Portal que Key Vault fue creado
 6. Commit: "feat: Add Azure Key Vault for secrets management"
@@ -831,15 +878,17 @@ output "acr_login_server" {
   value       = azurerm_container_registry.acr.login_server
 }
 
+# ⚠️ NOTA: Solo disponibles si admin_enabled = true en ACR
+# RECOMENDADO: Usar Managed Identity en lugar de admin credentials
 output "acr_admin_username" {
-  description = "Admin username for ACR"
-  value       = azurerm_container_registry.acr.admin_username
+  description = "Admin username for ACR (only if admin_enabled=true)"
+  value       = try(azurerm_container_registry.acr.admin_username, null)
   sensitive   = true
 }
 
 output "acr_admin_password" {
-  description = "Admin password for ACR"
-  value       = azurerm_container_registry.acr.admin_password
+  description = "Admin password for ACR (only if admin_enabled=true)"
+  value       = try(azurerm_container_registry.acr.admin_password, null)
   sensitive   = true
 }
 
