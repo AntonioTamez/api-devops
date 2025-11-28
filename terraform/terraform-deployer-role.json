@@ -1,0 +1,26 @@
+{
+  "Name": "Terraform Deployer",
+  "Description": "Minimal permissions for Terraform infrastructure deployment",
+  "Actions": [
+    "Microsoft.Resources/deployments/*",
+    "Microsoft.Resources/subscriptions/resourceGroups/*",
+    "Microsoft.ContainerRegistry/registries/*",
+    "Microsoft.App/*",
+    "Microsoft.Sql/servers/*",
+    "Microsoft.Sql/managedInstances/databases/*",
+    "Microsoft.Insights/*",
+    "Microsoft.OperationalInsights/workspaces/*",
+    "Microsoft.KeyVault/vaults/*",
+    "Microsoft.ManagedIdentity/userAssignedIdentities/*",
+    "Microsoft.Authorization/roleAssignments/write",
+    "Microsoft.Authorization/roleAssignments/read",
+    "Microsoft.Storage/storageAccounts/read",
+    "Microsoft.Storage/storageAccounts/listkeys/action"
+  ],
+  "NotActions": [],
+  "DataActions": [],
+  "NotDataActions": [],
+  "AssignableScopes": [
+    "/subscriptions/{SUBSCRIPTION_ID}"
+  ]
+}

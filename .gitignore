@@ -449,6 +449,12 @@ secrets/
 .env.local
 .env.*.local
 
+# Terraform Service Principal credentials
+terraform-sp-credentials.txt
+**/terraform-sp-credentials.txt
+configure-terraform-env.ps1
+terraform-deployer-role-temp.json
+
 ####################
 # Test Coverage
 ####################

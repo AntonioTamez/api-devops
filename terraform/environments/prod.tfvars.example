@@ -1,0 +1,166 @@
+# ========================================
+# EJEMPLO: Configuración de Producción
+# ========================================
+# ⚠️  ADVERTENCIA: Este es un archivo de PRODUCCIÓN
+# ⚠️  Revisar cuidadosamente antes de aplicar
+# ⚠️  Probar cambios en DEV primero
+# ========================================
+# INSTRUCCIONES:
+# 1. Copiar este archivo: cp prod.tfvars.example prod.tfvars
+# 2. Editar prod.tfvars con valores reales
+# 3. NUNCA commitear prod.tfvars a Git (está en .gitignore)
+# 4. Usar terraform plan para revisar cambios antes de apply
+# ========================================
+
+# ========================================
+# GENERAL
+# ========================================
+
+environment  = "prod"
+location     = "East US"
+project_name = "api-devops"
+
+# ========================================
+# OWNER INFORMATION
+# ========================================
+
+owner_email = "YOUR_EMAIL@example.com"  # ⚠️ CAMBIAR con email del responsable
+cost_center = "Engineering"
+
+# ========================================
+# CONTAINER REGISTRY
+# ========================================
+
+# Standard ofrece mejor performance que Basic
+acr_sku = "Standard"
+
+# ✅ SEGURIDAD: NUNCA habilitar admin en producción
+# Usar Managed Identity siempre
+acr_admin_enabled = false  # CRÍTICO: debe ser false
+
+# ========================================
+# CONTAINER APPS
+# ========================================
+
+# Alta disponibilidad con múltiples réplicas
+container_app_min_replicas = 2    # Mínimo 2 para HA
+container_app_max_replicas = 10   # Escalar hasta 10 bajo carga
+container_cpu              = 1.0  # Más recursos que dev
+container_memory           = "2Gi"
+
+# ========================================
+# SQL DATABASE
+# ========================================
+
+sql_admin_username = "sqladmin"
+
+# S2 ofrece mejor performance que Basic
+sql_database_sku = "S2"
+
+# Más espacio para datos de producción
+sql_max_size_gb = 10
+
+# ⚠️ SEGURIDAD: sql_admin_password NO debe estar en este archivo
+# Configurar como variable de entorno o desde Key Vault:
+# PowerShell:
+#   $env:TF_VAR_sql_admin_password = $(az keyvault secret show --vault-name <KV_NAME> --name sql-admin-password --query value -o tsv)
+# Linux/macOS:
+#   export TF_VAR_sql_admin_password=$(az keyvault secret show --vault-name <KV_NAME> --name sql-admin-password --query value -o tsv)
+
+# ========================================
+# SQL FIREWALL
+# ========================================
+
+# ✅ SEGURIDAD EN PRODUCCIÓN: NO permitir IPs públicas
+# Solo servicios de Azure (Container App tiene acceso automático)
+allowed_sql_ips = []
+
+# Si DEBES permitir IPs específicas (no recomendado):
+# allowed_sql_ips = [
+#   {
+#     name = "JumpBox"
+#     ip   = "SPECIFIC_IP_ONLY"  # Solo IPs muy específicas
+#   }
+# ]
+
+# ❌ NUNCA en producción:
+# allowed_sql_ips = [{ name = "All", ip = "0.0.0.0-255.255.255.255" }]
+
+# ========================================
+# KEY VAULT
+# ========================================
+
+# ✅ SEGURIDAD: Deny all, solo Azure Services
+key_vault_allowed_ips = []
+
+# Si necesitas acceso desde IPs específicas (para debugging):
+# key_vault_allowed_ips = ["SPECIFIC_IP_ONLY"]
+
+# ✅ CRÍTICO: Purge protection DEBE estar habilitado en producción
+# Previene eliminación permanente accidental de secretos
+key_vault_purge_protection = true
+
+# ========================================
+# FEATURES
+# ========================================
+
+# ✅ CRÍTICO: Protección contra eliminación DEBE estar habilitada
+# Previene 'terraform destroy' accidental en producción
+enable_deletion_protection = true
+
+# Monitoreo SIEMPRE habilitado en producción
+enable_monitoring = true
+
+# ========================================
+# TAGS
+# ========================================
+
+tags = {
+  Environment       = "Production"
+  Project           = "API DevOps"
+  ManagedBy         = "Terraform"
+  CostCenter        = "Engineering"
+  CriticalityLevel  = "High"
+  BackupRetention   = "30-days"
+  ComplianceLevel   = "GDPR"
+  Owner             = "DevOps Team"
+  SupportTeam       = "devops@example.com"
+  BusinessUnit      = "Technology"
+}
+
+# ========================================
+# NOTAS DE PRODUCCIÓN
+# ========================================
+
+# ⚠️  RECORDATORIOS IMPORTANTES:
+# 
+# 1. BACKUP STRATEGY
+#    - SQL Database: Backups automáticos (7-35 días retention)
+#    - Key Vault: Soft delete habilitado (7 días retention)
+#    - Terraform State: Versionado en Azure Storage
+#
+# 2. DISASTER RECOVERY
+#    - Tener plan de recuperación documentado
+#    - Probar recuperación periódicamente
+#    - Mantener copias de secretos críticos fuera de Azure
+#
+# 3. MONITORING & ALERTS
+#    - Configurar alertas en Application Insights
+#    - Revisar logs diariamente
+#    - Configurar alertas de costo
+#
+# 4. SECURITY REVIEWS
+#    - Auditar permisos mensualmente
+#    - Rotar credenciales cada 90 días
+#    - Revisar firewall rules trimestralmente
+#
+# 5. CHANGE MANAGEMENT
+#    - SIEMPRE hacer terraform plan primero
+#    - Revisar plan con el equipo
+#    - Aplicar cambios en ventanas de mantenimiento
+#    - Tener plan de rollback
+#
+# 6. COMPLIANCE
+#    - Mantener logs por mínimo 90 días
+#    - No almacenar datos sensibles sin encriptación
+#    - Documentar todos los cambios

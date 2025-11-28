@@ -1,0 +1,113 @@
+# ========================================
+# EJEMPLO: Configuración de Desarrollo
+# ========================================
+# INSTRUCCIONES:
+# 1. Copiar este archivo: cp dev.tfvars.example dev.tfvars
+# 2. Editar dev.tfvars con valores reales
+# 3. NUNCA commitear dev.tfvars a Git (está en .gitignore)
+# ========================================
+
+# ========================================
+# GENERAL
+# ========================================
+
+environment  = "dev"
+location     = "East US"
+project_name = "api-devops"
+
+# ========================================
+# OWNER INFORMATION
+# ========================================
+
+owner_email = "YOUR_EMAIL@example.com"  # ⚠️ CAMBIAR con tu email real
+cost_center = "Engineering"
+
+# ========================================
+# CONTAINER REGISTRY
+# ========================================
+
+acr_sku = "Basic"  # Suficiente para desarrollo
+
+# ⚠️ SEGURIDAD: NO habilitar admin en producción
+# Usar Managed Identity en su lugar
+acr_admin_enabled = false  # RECOMENDADO: false
+
+# ========================================
+# CONTAINER APPS
+# ========================================
+
+container_app_min_replicas = 1   # Mínimo para dev
+container_app_max_replicas = 3   # Bajo para ahorrar costos
+container_cpu              = 0.5 # 0.5 CPU cores
+container_memory           = "1Gi"
+
+# ========================================
+# SQL DATABASE
+# ========================================
+
+sql_admin_username = "sqladmin"
+sql_database_sku   = "Basic"  # Tier más bajo para dev
+sql_max_size_gb    = 2        # Tamaño mínimo
+
+# ⚠️ SEGURIDAD: sql_admin_password NO debe estar en este archivo
+# Configurar como variable de entorno:
+# PowerShell:
+#   $env:TF_VAR_sql_admin_password = "YourStrongP@ssw0rd!"
+# Linux/macOS:
+#   export TF_VAR_sql_admin_password="YourStrongP@ssw0rd!"
+
+# ========================================
+# SQL FIREWALL
+# ========================================
+
+# ⚠️ IMPORTANTE: Usar IPs específicas, NO 0.0.0.0-255.255.255.255
+# Obtén tu IP: https://www.whatismyip.com/
+allowed_sql_ips = [
+  {
+    name = "Office"
+    ip   = "YOUR_IP_HERE"  # ⚠️ CAMBIAR con tu IP real
+  },
+  {
+    name = "Home"
+    ip   = "YOUR_HOME_IP_HERE"  # ⚠️ CAMBIAR si trabajas desde casa
+  }
+]
+
+# Ejemplo de cómo NO hacerlo:
+# allowed_sql_ips = [
+#   {
+#     name = "AllInternet"  # ❌ NUNCA HACER ESTO
+#     ip   = "0.0.0.0-255.255.255.255"
+#   }
+# ]
+
+# ========================================
+# KEY VAULT
+# ========================================
+
+# IPs permitidas para acceder a Key Vault
+key_vault_allowed_ips = ["YOUR_IP_HERE"]  # ⚠️ CAMBIAR con tu IP real
+
+# En desarrollo, permitir purge para facilitar testing
+key_vault_purge_protection = false
+
+# ========================================
+# FEATURES
+# ========================================
+
+# En desarrollo, permitir destroy fácil
+enable_deletion_protection = false
+
+# Habilitar monitoreo
+enable_monitoring = true
+
+# ========================================
+# TAGS
+# ========================================
+
+tags = {
+  Environment = "Development"
+  Project     = "API DevOps"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps Team"
+}
